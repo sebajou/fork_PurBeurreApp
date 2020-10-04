@@ -14,27 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls import include, url
 from django.contrib import admin
-from django.urls import include, path
-from search_app import views
+from django.urls import include, path, re_path
+from database_handler_app import views as database_handler_views
+from user_app import views as user_views
+from user_app.views import ProfileViewsList
+
 
 urlpatterns = [
-    path('search_app/', include('search_app.urls')),
+    re_path(r'^$', database_handler_views.index),
+    re_path(r'^user_form/', user_views.user_form),
+    # re_path(r'^user_myaccount/', user_views.user_myaccount),
+    path('user_app/', include('user_app.urls')),
+    path('database_handler_app/', include('database_handler_app.urls')),
     path('admin/', admin.site.urls),
-]
-
-urlpatterns = [
-    url(r'^$', views.index),
-    path('search_app/', include('search_app.urls')),
-    # url(r'^search_app/', include('search_app.urls')),
-    path('admin/', admin.site.urls),
-    # url(r'^admin/', admin.site.urls)
+    # path('accounts/profile/', user_views.user_myaccount, name='user_myaccount'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/profile/', ProfileViewsList.as_view()),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        # path('__debug__/', include(debug_toolbar.urls)),
-        url('__debug__/', include(debug_toolbar.urls)),
+        re_path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns

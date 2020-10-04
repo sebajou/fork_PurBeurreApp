@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +33,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'search_app.apps.SearchAppConfig',
+    'database_handler_app.apps.DatabaseHandlerAppConfig',
+    'request_api_app.apps.RequestApiAppConfig',
+    'user_app.apps.UserAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +55,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+AUTH_USER_MODEL = 'database_handler_app.MyUsers'
 
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -81,7 +87,7 @@ WSGI_APPLICATION = 'PurBeurre_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pur_beurre_db',
+        'NAME': 'pur_beurre_v2_db',
         'USER': 'sebajou',
         'PASSWORD': '3333argh',
         'HOST': 'localhost',
