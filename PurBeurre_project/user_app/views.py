@@ -10,19 +10,30 @@ from django.views.generic import ListView
 def user_form(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        alergen = AlergyForm(request.POST)
+        # alergen = AlergyForm(request.POST)
         if form.is_valid():
             form.save()
+            # alergen.save()
             username = form.cleaned_data.get('username')
+            print('username: ', username)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            choose_alergy = request.POST.getlist('alergy')
+            print('choose_alergy: ', choose_alergy)
+            qs_username = MyUsers.objects.get(username=username)
+            for alergen in choose_alergy:
+                qs_alergen = Alergen.objects.get(id=alergen)
+                qs_username.alergy.add(qs_alergen)
+            for element in form:
+                print(element)
             return redirect('index')
     else:
         form = SignUpForm()
-        alergen = AlergyForm()
+        # alergen = AlergyForm()
         # diet_types = ["Omnivor", "Vegan", "Vegetarian", "Carnivor", "Cannibal"]
-    return render(request, 'registration/signup.html', {'form': form, 'alergen': alergen})
+    # return render(request, 'registration/signup.html', {'form': form, 'alergen': alergen})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 """@login_required(redirect_field_name='user_login')
@@ -35,5 +46,6 @@ class ProfileViewsList(ListView):
     model = MyUsers
     template_name = "myusers_list.html"
 
-    queryset = MyUsers.objects.all()
+    # queryset = MyUsers.objects.all()
+    queryset = MyUsers.objects.filter(is_active=True)
     context_object_name = 'profile_list'
