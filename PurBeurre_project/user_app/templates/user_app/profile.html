@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+<div class="container">
+    <h1>Profile Page, You are logged in as {{ user }}.</h1>
+    <p>Username: {{ user.username }}</p>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Last name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Last login: {{ user.last_login }}</p>
+    <p>Date joined: {{ user.date_joined }}</p>
+</div>
+
+{% endblock %}

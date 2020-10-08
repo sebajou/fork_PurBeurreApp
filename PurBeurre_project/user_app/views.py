@@ -2,46 +2,53 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
-from database_handler_app.models import MyUsers, Alergen
-from user_app.sign_up_form import SignUpForm, AlergyForm
+from database_handler_app.models import MyUsers, Alergen, Diet
+from user_app.sign_up_form import SignUpForm
 from django.views.generic import ListView
 
 
 def user_form(request):
     if request.method == 'POST':
+        # Form for sign up from class in sign_up_form.py module
         form = SignUpForm(request.POST)
-        # alergen = AlergyForm(request.POST)
         if form.is_valid():
             form.save()
-            # alergen.save()
             username = form.cleaned_data.get('username')
-            print('username: ', username)
             raw_password = form.cleaned_data.get('password1')
+            # authentification and login
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            choose_alergy = request.POST.getlist('alergy')
-            print('choose_alergy: ', choose_alergy)
+            # special treatment of data alergy and diet which from many to many field
             qs_username = MyUsers.objects.get(username=username)
-            for alergen in choose_alergy:
-                qs_alergen = Alergen.objects.get(id=alergen)
+            choose_diet = request.POST.get('diet_type')
+            print('choose_diet: ', choose_diet)
+            qs_diet = Diet.objects.get(id=choose_diet)
+            qs_username.diet_type.add(qs_diet)
+            choose_alergen = request.POST.getlist('alergy')
+            for id_alergen in choose_alergen:
+                qs_alergen = Alergen.objects.get(id=id_alergen)
                 qs_username.alergy.add(qs_alergen)
-            for element in form:
-                print(element)
+
             return redirect('index')
     else:
         form = SignUpForm()
-        # alergen = AlergyForm()
-        # diet_types = ["Omnivor", "Vegan", "Vegetarian", "Carnivor", "Cannibal"]
-    # return render(request, 'registration/signup.html', {'form': form, 'alergen': alergen})
     return render(request, 'registration/signup.html', {'form': form})
 
 
-"""@login_required(redirect_field_name='user_login')
-def user_myaccount(request):
-    fields = MyUsers.get_username(self)
-    return render(request, 'registration/profile.html', {'fields': fields})"""
+def view_profile(request, id=None):
+    print("maybe")
+    if request.user.is_authenticated:
+        user = request.user.get_profile()
 
+        # user = MyUsers.objects.all()
 
+        print("yes")
+    else:
+        user = request.user
+        print("no")
+    return render(request, 'registration/profile.html')
+
+"""
 class ProfileViewsList(ListView):
     model = MyUsers
     template_name = "myusers_list.html"
@@ -49,3 +56,4 @@ class ProfileViewsList(ListView):
     # queryset = MyUsers.objects.all()
     queryset = MyUsers.objects.filter(is_active=True)
     context_object_name = 'profile_list'
+"""

@@ -9,6 +9,13 @@ class Alergen(models.Model):
         return self.alergen_name
 
 
+class Diet(models.Model):
+    diet_name = models.CharField(max_length=200, unique=False, null=True)
+
+    def __str__(self):
+        return self.diet_name
+
+
 class FoodList(models.Model):
     food_name = models.CharField(max_length=200, unique=True, null=False)
     category = models.CharField(max_length=200, unique=False, null=False)
@@ -20,7 +27,7 @@ class FoodList(models.Model):
 
 
 class MyUsers(AbstractUser):
-    diet_type = models.CharField(max_length=200, unique=False, null=True)
+    diet_type = models.ManyToManyField(Diet)
     search_food = models.ManyToManyField(FoodList)
     alergy = models.ManyToManyField(Alergen)
 
