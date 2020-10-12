@@ -1,10 +1,7 @@
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from database_handler_app.models import MyUsers, Alergen, Diet
 from user_app.sign_up_form import SignUpForm
-from django.views.generic import ListView
 
 
 def user_form(request):
@@ -35,25 +32,17 @@ def user_form(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-def view_profile(request, id=None):
-    print("maybe")
-    if request.user.is_authenticated:
-        user = request.user.get_profile()
+def profile(request):
+    # Article.objects.filter(publications__id=1)
+    # Alergen.objects.get(id=
+    # Publication.objects.get(id=4).article_set.all()
+    # user_diet = MyUsers.objects.get(diet_type).diet_set.all()
+    # request.user.id
+    # My
+    alergy = Alergen.objects.filter(myusers__id=request.user.id)
+    diet_type = Diet.objects.filter(myusers__id=request.user.id)
+    for al in alergy:
+        print(al)
 
-        # user = MyUsers.objects.all()
+    return render(request, 'user_app/profile.html', {'alergy': alergy, 'diet_type': diet_type})
 
-        print("yes")
-    else:
-        user = request.user
-        print("no")
-    return render(request, 'registration/profile.html')
-
-"""
-class ProfileViewsList(ListView):
-    model = MyUsers
-    template_name = "myusers_list.html"
-
-    # queryset = MyUsers.objects.all()
-    queryset = MyUsers.objects.filter(is_active=True)
-    context_object_name = 'profile_list'
-"""

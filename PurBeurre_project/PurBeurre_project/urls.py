@@ -24,16 +24,12 @@ from django.views.generic import TemplateView
 urlpatterns = [
     re_path(r'^$', database_handler_views.index),
     re_path(r'^user_form/', user_views.user_form),
-    # re_path(r'^user_myaccount/', user_views.user_myaccount),
     path('user_app/', include('user_app.urls')),
     path('database_handler_app/', include('database_handler_app.urls')),
     path('admin/', admin.site.urls),
-    # path('accounts/profile/', user_views.user_myaccount, name='user_myaccount'),
     path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/profile/', ProfileViewsList.as_view()),
-    path('accounts/profile/', TemplateView.as_view(template_name='user_app/profile.html'),
-         name='profile'),
-    # path('accounts/profile/', user_views.view_profile, name='view_profile'),
+    # path('accounts/profile/', TemplateView.as_view(template_name='user_app/profile.html'), name='profile'),
+    path('accounts/profile/', user_views.profile),
 ]
 
 if settings.DEBUG:
