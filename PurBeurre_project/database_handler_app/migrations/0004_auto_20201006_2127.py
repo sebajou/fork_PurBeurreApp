@@ -7,7 +7,8 @@ def combine_diet(apps, schema_editor):
     Diet = apps.get_model('database_handler_app', 'Diet')
     diet_list = ['omnivore', 'végétarien', 'végétalien', 'carnivore', 'anthropophage', 'pesco-végétarien', 'crudivore']
     for diet_type in diet_list:
-        Diet.objects.create(diet_name=diet_type)
+        if not Diet.objects.get(diet_name=diet_type):
+            Diet.objects.create(diet_name=diet_type)
 
 
 class Migration(migrations.Migration):

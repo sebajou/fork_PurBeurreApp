@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 from database_handler_app.models import MyUsers, Alergen, Diet
 from user_app.sign_up_form import SignUpForm
 
@@ -46,3 +47,9 @@ def profile(request):
 
     return render(request, 'user_app/profile.html', {'alergy': alergy, 'diet_type': diet_type})
 
+
+"""def login_page(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('accounts/profile/')
+    else:
+        return HttpResponseRedirect('accounts/login/')"""

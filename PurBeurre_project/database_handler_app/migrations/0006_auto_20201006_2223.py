@@ -8,7 +8,8 @@ def combine_alergen(apps, schema_editor):
     alergen_list = ['oeuf', 'crustacés', 'poisson', 'lait', 'blé', 'légumineuses', 'banane', 'avocat', 'kiwi', 'moules',
                     'pommes de terre', 'tournesol', 'boeuf', 'arachide', 'mangue']
     for alergen_type in alergen_list:
-        Alergen.objects.create(alergen_name=alergen_type)
+        if not Alergen.objects.get(alergen_name=alergen_type):
+            Alergen.objects.create(alergen_name=alergen_type)
 
 
 class Migration(migrations.Migration):
