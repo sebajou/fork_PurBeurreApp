@@ -38,9 +38,9 @@
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>-->
                         <form action="search_results/" method="post">{% csrf_token %}<input id="search" type="text" placeholder="Chercher"></form>
-                        <a href="accounts/login/"><i class="far fa-user-circle fa-3x" style="background-color:white;"></i></a>
-                        <a href="my_foods/"><i class="icon-Carrot fa-3x" style="background-color:white;"></i></a>
-                        <a href="accounts/logout/"><i class="fas fa-sign-out-alt fa-3x" style="background-color:white;"></i></a>
+                        <a href="{% url 'login' %}"><i class="far fa-user-circle fa-3x"></i></a>
+                        <a href="{% url 'my_foods' %}"><i class="icon-Carrot fa-3x"></i></a>
+                        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-3x"></i></a>
                         <!--<li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>-->

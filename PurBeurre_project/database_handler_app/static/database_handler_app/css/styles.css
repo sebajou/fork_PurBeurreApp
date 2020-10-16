@@ -10124,6 +10124,46 @@ header.masthead h1 {
     font-size: 3.5rem;
   }
 }
+
+/* Container css style   222, 148, 64  */
+#container-content {
+  padding-top: 10rem;
+  padding-bottom: calc(10rem - 4.5rem);
+  background: linear-gradient(rgba(222, 148, 64, 0.8) 0%, rgba(222, 148, 64, 0.8));
+  background-position: center;
+  /* background-repeat: no-repeat;
+  background-attachment: fixed; */
+  background-size: auto;
+}
+#container-content h1 {
+  font-size: 2.25rem;
+}
+@media (min-width: auto) {
+  #container-content {
+    height: 100vh;
+    min-height: 40rem;
+    padding-top: 4.5rem;
+    padding-bottom: 0;
+  }
+  #container-content p {
+    font-size: 1.15rem;
+  }
+  #container-content h1 {
+    font-size: 3rem;
+  }
+}
+@media (min-width: 1200px) {
+  #container-content h1 {
+    font-size: 3.5rem;
+  }
+}
+
+/* navbar-button padding*/
+.navbar-button {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 fas
 #portfolio .container-fluid, #portfolio .container-sm, #portfolio .container-md, #portfolio .container-lg, #portfolio .container-xl {
   max-width: 1920px;

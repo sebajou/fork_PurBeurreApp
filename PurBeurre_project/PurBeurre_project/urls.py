@@ -23,20 +23,21 @@ from django.contrib.auth.views import LoginView
 
 
 urlpatterns = [
-    re_path(r'^$', database_handler_views.index),
-    re_path(r'^user_form/', user_views.user_form),
-    re_path(r'^search_results/', database_handler_views.search_results),
-    re_path(r'^legal_mention/', database_handler_views.legal_mention),
-    re_path(r'^my_foods/', database_handler_views.my_foods),
+    re_path(r'^$', database_handler_views.index, name='index'),
+    re_path(r'^user_form/', user_views.user_form, name='user_form'),
+    re_path(r'^search_results/', database_handler_views.search_results, name='search_results'),
+    re_path(r'^legal_mention/', database_handler_views.legal_mention, name='legal_mention'),
+    re_path(r'^my_foods/', database_handler_views.my_foods, name='my_foods'),
+    # re_path(r'^accounts/login/$', user_views.profile, name='profile'),
     # re_path(r'^accounts/login/$', LoginView.as_view(redirect_authenticated_user=True)),
 
-    path('database_handler_app/search_results/', database_handler_views.search_results),
-    path('database_handler_app/legal_mention/', database_handler_views.legal_mention),
-    path('database_handler_app/my_foods/', database_handler_views.my_foods),
+    path('database_handler_app/search_results/', database_handler_views.search_results, name='search_results'),
+    path('database_handler_app/legal_mention/', database_handler_views.legal_mention, name='legal_mention'),
+    path('database_handler_app/my_foods/', database_handler_views.my_foods, name='my_foods'),
     path('admin/', admin.site.urls),
-    path('database_handler_app/accounts/login/', TemplateView.as_view(template_name='registration/login.html')),
-    path('database_handler_app/accounts/logout/', TemplateView.as_view(template_name='registration/logged_out.html')),
-    path('accounts/profile/', user_views.profile),
+    path('database_handler_app/accounts/login/', TemplateView.as_view(template_name='registration/login.html'), name='login'),
+    path('database_handler_app/accounts/logout/', TemplateView.as_view(template_name='registration/logged_out.html'), name='logout'),
+    path('accounts/profile/', user_views.profile, name='profile'),
 
     path('user_app/', include('user_app.urls')),
     path('database_handler_app/', include('database_handler_app.urls')),
