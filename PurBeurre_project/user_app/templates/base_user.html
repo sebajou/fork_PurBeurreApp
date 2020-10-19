@@ -45,9 +45,15 @@
         </nav>
 
         <!-- Container -->
-
-            {% block content %}{% endblock %}
-
+        <section class="page-section" id="container-content">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-lg-12 text-center">
+                    {% block content %}{% endblock %}
+                </div>
+              </div>
+            </div>
+        </section>
         <!--</header>-->
 
         <!-- Footer-->

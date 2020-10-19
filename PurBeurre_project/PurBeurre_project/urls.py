@@ -19,7 +19,6 @@ from django.urls import include, path, re_path
 from database_handler_app import views as database_handler_views
 from user_app import views as user_views
 from django.views.generic import TemplateView
-from django.contrib.auth.views import LoginView
 
 
 urlpatterns = [
@@ -28,8 +27,7 @@ urlpatterns = [
     re_path(r'^search_results/', database_handler_views.search_results, name='search_results'),
     re_path(r'^legal_mention/', database_handler_views.legal_mention, name='legal_mention'),
     re_path(r'^my_foods/', database_handler_views.my_foods, name='my_foods'),
-    # re_path(r'^accounts/login/$', user_views.profile, name='profile'),
-    # re_path(r'^accounts/login/$', LoginView.as_view(redirect_authenticated_user=True)),
+    re_path(r'^#contact', database_handler_views.index, name='contact'),
 
     path('database_handler_app/search_results/', database_handler_views.search_results, name='search_results'),
     path('database_handler_app/legal_mention/', database_handler_views.legal_mention, name='legal_mention'),

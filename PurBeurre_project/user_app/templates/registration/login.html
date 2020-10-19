@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "base_user.html" %}
 
 {% block content %}
 
@@ -33,5 +33,5 @@
 
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-
+  <p><a href="{% url 'user_form' %}">Première connection, créer un profile ?</a></p>
 {% endblock %}

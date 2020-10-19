@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def index(request):
@@ -27,4 +27,3 @@ def my_foods(request):
     """template = loader.get_template('database_handler_app/search_results.html')
     return HttpResponse(template.render(request=request))"""
     return render(request, 'database_handler_app/my_foods.html', {'message': message})
-

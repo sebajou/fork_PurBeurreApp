@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import test_settings
 import os
 
 
@@ -28,7 +29,6 @@ SECRET_KEY = 'puza!=@c^c3=k$yab*kly71*3%=%uu4_c%i-qd9)a8tndvh151'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -133,3 +133,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DJANGO_SETTINGS_MODULE = test_settings

@@ -10204,3 +10204,8 @@ fas
 .text-white-75 {
   color: rgba(255, 255, 255, 0.75);
 }
+
+#right-style {
+    text-align: left;
+    margin-left: 30%;
+}

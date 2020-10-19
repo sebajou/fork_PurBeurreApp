@@ -1,22 +1,22 @@
-{% extends "base_generic.html" %}
-
+{% extends "base_user.html" %}
 
 {% block content %}
-<div class="container">
-    <h1>Page de profile, Vous êtes connecté en temps que {{ user }}.</h1>
-    <p>Username: {{ user.username }}</p>
-    <p>First name: {{ user.first_name }}</p>
-    <p>Last name: {{ user.last_name }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>User diet: {% for diet in diet_type %} {{ diet }} {% endfor %}</p>
-    <p>User alergy:</p>
-    <ul>
-    {% for alergy_type in alergy %}
-        <li>{{ alergy_type }}</li>
-    {% endfor %}
-    </ul>
-    <p>Last login: {{ user.last_login }}</p>
-    <p>Date joined: {{ user.date_joined }}</p>
-</div>
-
+    <div class="container">
+        <h1>Page de profile, Vous êtes connecté en tant que  {{ user }}.</h1>
+        <div  id="right-style">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>First name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last name:</strong> {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>User diet:</strong> {% for diet in diet_type %} {{ diet }} {% endfor %}</p>
+            <p><strong>User alergy:</strong></p>
+            <ul>
+            {% for alergy_type in alergy %}
+                <li>{{ alergy_type }}</li>
+            {% endfor %}
+            </ul>
+            <p><strong>Last login:</strong> {{ user.last_login }}</p>
+            <p><strong>Date joined:</strong> {{ user.date_joined }}</p>
+        </div>
+    </div>
 {% endblock %}

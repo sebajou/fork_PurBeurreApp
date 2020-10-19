@@ -14,7 +14,7 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours. </p>
                         <a class="btn btn-primary btn-xl">Champ de recherche
-                        <form action="search_results/" method="post">{% csrf_token %}<input type="text" id="search" placeholder="Produit"></form>
+                        <form action="{% url 'search_results' %}" method="post">{% csrf_token %}<input type="text" id="search" placeholder="Produit"></form>
                         </a>
                     </div>
                 </div>

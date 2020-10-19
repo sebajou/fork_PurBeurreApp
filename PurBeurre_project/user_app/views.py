@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
 from database_handler_app.models import MyUsers, Alergen, Diet
 from user_app.sign_up_form import SignUpForm
 
@@ -34,22 +33,14 @@ def user_form(request):
 
 
 def profile(request):
-    # Article.objects.filter(publications__id=1)
-    # Alergen.objects.get(id=
-    # Publication.objects.get(id=4).article_set.all()
-    # user_diet = MyUsers.objects.get(diet_type).diet_set.all()
-    # request.user.id
-    # My
-    alergy = Alergen.objects.filter(myusers__id=request.user.id)
-    diet_type = Diet.objects.filter(myusers__id=request.user.id)
-    for al in alergy:
-        print(al)
 
-    return render(request, 'user_app/profile.html', {'alergy': alergy, 'diet_type': diet_type})
-
-
-"""def login_page(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('accounts/profile/')
+        alergy = Alergen.objects.filter(myusers__id=request.user.id)
+        diet_type = Diet.objects.filter(myusers__id=request.user.id)
+
+        return render(request, 'user_app/profile.html', {'alergy': alergy, 'diet_type': diet_type})
+
     else:
-        return HttpResponseRedirect('accounts/login/')"""
+        return render(request, 'registration/login.html')
+
+
