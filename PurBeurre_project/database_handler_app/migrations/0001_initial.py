@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Alergen',
+            name='Allergen',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('alergen_name', models.CharField(max_length=200, unique=True)),
@@ -59,7 +59,7 @@ class Migration(migrations.Migration):
                 ('nutri_score_grad', models.CharField(max_length=1, null=True)),
                 ('food_url', models.TextField(null=True)),
                 ('image_src', models.TextField(null=True)),
-                ('alergen_list', models.ManyToManyField(blank=True, related_name='food_list', to='database_handler_app.Alergen')),
+                ('alergen_list', models.ManyToManyField(blank=True, related_name='food_list', to='database_handler_app.Allergen')),
             ],
         ),
         migrations.CreateModel(
@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='myusers',
             name='alergy',
-            field=models.ManyToManyField(blank=True, related_name='users', to='database_handler_app.Alergen'),
+            field=models.ManyToManyField(blank=True, related_name='users', to='database_handler_app.Allergen'),
         ),
         migrations.AddField(
             model_name='myusers',

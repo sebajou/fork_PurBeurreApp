@@ -19,12 +19,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='foodlist',
             name='alergen_list',
-            field=models.ManyToManyField(to='database_handler_app.Alergen'),
+            field=models.ManyToManyField(to='database_handler_app.Allergen'),
         ),
         migrations.AlterField(
             model_name='myusers',
             name='alergy',
-            field=models.ManyToManyField(to='database_handler_app.Alergen'),
+            field=models.ManyToManyField(to='database_handler_app.Allergen'),
         ),
         migrations.AlterField(
             model_name='myusers',

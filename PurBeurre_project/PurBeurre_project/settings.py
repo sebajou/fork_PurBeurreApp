@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import sys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,7 +86,7 @@ WSGI_APPLICATION = 'PurBeurre_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pur_beurre_v2_db',
+        'NAME': 'pur_beurre_v3_db',
         'USER': 'sebajou',
         'PASSWORD': '3333argh',
         'HOST': 'localhost',

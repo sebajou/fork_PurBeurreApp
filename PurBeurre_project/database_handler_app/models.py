@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class Alergen(models.Model):
-    alergen_name = models.CharField(max_length=200, unique=True)
+class Allergen(models.Model):
+    allergen_name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
-        return self.alergen_name
+        return self.allergen_name
 
 
 class Diet(models.Model):
@@ -23,13 +23,13 @@ class FoodList(models.Model):
     nutri_score_grad = models.CharField(max_length=1, unique=False, null=True)
     food_url = models.TextField(unique=False, null=True)
     image_src = models.TextField(unique=False, null=True)
-    alergen_list = models.ManyToManyField(Alergen)
+    allergen_list = models.ManyToManyField(Allergen)
 
 
 class MyUsers(AbstractUser):
     diet_type = models.ManyToManyField(Diet)
     search_food = models.ManyToManyField(FoodList)
-    alergy = models.ManyToManyField(Alergen)
+    alergy = models.ManyToManyField(Allergen)
 
 
 class Favorites(models.Model):

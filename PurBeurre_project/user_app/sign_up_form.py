@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from database_handler_app.models import MyUsers, Alergen, Diet
+from database_handler_app.models import MyUsers, Allergen, Diet
 from django import forms
 
 
@@ -8,7 +8,7 @@ class SignUpForm(UserCreationForm, forms.Form):
     # Alery from many to many field. Several alergy choice possible.
     alergy = forms.ModelMultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
-        queryset=Alergen.objects.all()
+        queryset=Allergen.objects.all()
     )
 
     # Diet from many to many field. Only one choice possible.

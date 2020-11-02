@@ -4,6 +4,7 @@ from django import urls
 # from django.urls import reverse
 # from database_handler_app.models import MyUsers
 import pytest
+import time
 # import freezegun
 # import datetime as dt
 # from django.test.testcases import SimpleTestCase
@@ -64,6 +65,7 @@ class TestRoutesUsers:
         assert response.status_code == 200
         # The login view should redirect us to profile page
         # SimpleTestCase().assertRedirects(response, reverse('profile'))
+        # time.sleep(3)
         # assert response.status_code == 302
         # assert response.url == urls.reverse('profile')
 

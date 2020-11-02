@@ -4,12 +4,12 @@ from django.db import migrations
 
 
 def combine_alergen(apps, schema_editor):
-    Alergen = apps.get_model('database_handler_app', 'Alergen')
-    alergen_list = ['oeuf', 'crustacés', 'poisson', 'lait', 'blé', 'légumineuses', 'banane', 'avocat', 'kiwi', 'moules',
+    Allergen = apps.get_model('database_handler_app', 'Allergen')
+    allergen_list = ['oeuf', 'crustacés', 'poisson', 'lait', 'blé', 'légumineuses', 'banane', 'avocat', 'kiwi', 'moules',
                     'pommes de terre', 'tournesol', 'boeuf', 'arachide', 'mangue']
-    for alergen_type in alergen_list:
-        if not Alergen.objects.get(alergen_name=alergen_type):
-            Alergen.objects.create(alergen_name=alergen_type)
+    for alergen_type in allergen_list:
+        if not Allergen.objects.get(alergen_name=alergen_type):
+            Allergen.objects.create(alergen_name=alergen_type)
 
 
 class Migration(migrations.Migration):

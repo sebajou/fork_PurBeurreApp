@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
-from database_handler_app.models import MyUsers, Alergen, Diet
+from database_handler_app.models import MyUsers, Allergen, Diet
 from user_app.sign_up_form import SignUpForm
 
 
@@ -21,10 +21,10 @@ def user_form(request):
             print('choose_diet: ', choose_diet)
             qs_diet = Diet.objects.get(id=choose_diet)
             qs_username.diet_type.add(qs_diet)
-            choose_alergen = request.POST.getlist('alergy')
-            for id_alergen in choose_alergen:
-                qs_alergen = Alergen.objects.get(id=id_alergen)
-                qs_username.alergy.add(qs_alergen)
+            choose_allergen = request.POST.getlist('alergy')
+            for id_allergen in choose_allergen:
+                qs_allergen = Allergen.objects.get(id=id_allergen)
+                qs_username.alergy.add(qs_allergen)
 
             return redirect('index')
     else:
@@ -35,7 +35,7 @@ def user_form(request):
 def profile(request):
 
     if request.user.is_authenticated:
-        alergy = Alergen.objects.filter(myusers__id=request.user.id)
+        alergy = Allergen.objects.filter(myusers__id=request.user.id)
         diet_type = Diet.objects.filter(myusers__id=request.user.id)
 
         return render(request, 'user_app/profile.html', {'alergy': alergy, 'diet_type': diet_type})
