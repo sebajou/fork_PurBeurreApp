@@ -28,9 +28,11 @@ class TestsPopDBFromJsonWithCategories:
 
     def test_variables_from_foods_json(self):
         """Control Extract useful data from json and stock it in variables corespond to schema"""
+        popi = PopDBFromJsonWithCategories()
+        bonbons_json = popi.json_from_api("bonbon")
         dictionary_schema = self.schema
         dictionary_from_json = self.dictionary_build_with_json
-        print(dictionary_from_json)
+        print(bonbons_json)
         # Loop on dictionary extract from json to assert schema of for each products
         for products_num_dict in dictionary_from_json:
             assert dictionary_schema.is_valid(products_num_dict)
