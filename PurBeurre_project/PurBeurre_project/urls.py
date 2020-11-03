@@ -19,6 +19,8 @@ from django.urls import include, path, re_path
 from database_handler_app import views as database_handler_views
 from user_app import views as user_views
 from django.views.generic import TemplateView
+from request_api_app.search_engine import pop_db_with_categories
+from database_handler_app.initial_database_fill_up import fill_up_diet
 
 
 urlpatterns = [
@@ -41,6 +43,10 @@ urlpatterns = [
     path('database_handler_app/', include('database_handler_app.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
+# Run initial script
+pop_db_with_categories()
+fill_up_diet()
 
 if settings.DEBUG:
     import debug_toolbar

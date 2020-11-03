@@ -54,7 +54,7 @@ class PopDBFromJsonWithCategories:
                                               "image_src": image_src,
                                               "allergen_list": allergen_list}])
             except (TypeError, KeyError):
-                print("Loop through the data_category_json doesn't work")
+                print("One loop through the data_category_json doesn't work")
 
         return dictionary_from_json
 
@@ -97,22 +97,24 @@ class PopDBFromJsonWithCategories:
                             aller.save()
                             food_list.allergen_list.add(aller)
 
-    def pop_db_with_categories(self, name_category):
+    def pop_db_all_foo(self, name_category):
         """Use json_from_api and pop_db for 30 different categories of foods. """
-        categories_list = ['pizza', 'pate a tartiner', 'gateau', 'choucroute', 'bonbon', 'cassoulet', 'compote',
-                           'cookies', 'tartiflette', 'bolognaise', 'chips', 'brioche', 'bolognaise', 'biscuit',
-                           'croissants', 'pesto', 'couscous', 'confiture', 'biscuit', 'chocolat', 'croissant',
-                           'yahourt', 'soda', 'céréales pour petit-déjeuner', 'biscotte', 'patte', 'riz',
-                           'lentille', 'pâtes feuilletées', 'pâtes brisées', 'pâte sablée', 'saucisse',
-                           'jambon', 'saucissons', 'poissons', 'tofu', 'fromages']
-
         # Fill with name_category from outside function
         if name_category:
             data_category_json_var = self.json_from_api(name_category)
-            dictionary_from_json_var = self.variables_from_foods_json(data_category_json_var)
+            dictionary_from_json_var = self.variables_from_foods_json(name_category=name_category,
+                                                                      data_category_json=data_category_json_var)
             self.pop_db(dictionary_from_json_var)
-        # Fill with category define in function
-        # for category_name in categories_list:
-        #     data_category_json = self.json_from_api(category_name)
-        #     dictionary_from_json = self.variables_from_foods_json(data_category_json)
-        #     self.pop_db(dictionary_from_json)
+
+
+def pop_db_with_categories():
+    categories_list = ['pizza', 'pate a tartiner', 'gateau', 'choucroute', 'bonbon', 'cassoulet', 'compote',
+                       'cookies', 'tartiflette', 'bolognaise', 'chips', 'brioche', 'bolognaise', 'biscuit',
+                       'croissants', 'pesto', 'couscous', 'confiture', 'biscuit', 'chocolat', 'croissant',
+                       'yahourt', 'soda', 'céréales pour petit-déjeuner', 'biscotte', 'patte', 'riz',
+                       'lentille', 'pâtes feuilletées', 'pâtes brisées', 'pâte sablée', 'saucisse',
+                       'jambon', 'saucissons', 'poissons', 'tofu', 'fromages']
+    pop = PopDBFromJsonWithCategories()
+    for categories_name in categories_list:
+        pop.pop_db_all_foo(categories_name)
+

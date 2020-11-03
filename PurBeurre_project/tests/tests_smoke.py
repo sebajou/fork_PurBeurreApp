@@ -23,7 +23,7 @@ def test_api_json_format():
 
 @pytest.mark.smoketest
 @pytest.mark.django_db(transaction=True)
-def tests_pop_db_with_categories():
+def tests_pop_db_all_foo():
     """Use json_from_api and pop_db for 30 different categories of foods. """
     # Get in variable the json data format from Open Fact Foods API
     pop = PopDBFromJsonWithCategories()
