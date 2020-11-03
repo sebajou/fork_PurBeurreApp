@@ -34,8 +34,8 @@ class PopDBFromJsonWithCategories:
         """Extract useful data from json and stock it in variables"""
         # Loop through data_category_json and stock useful data in dictionary_from_json
         dictionary_from_json = []
-        print("data_category_json, => ", data_category_json)
-        for data in data_category_json['products']:
+        print('\n==================\n\n\n', 'data_category_json => ', data_category_json, '\n==================\n\n\n')
+        for data in data_category_json[0]['products']:
             try:
                 if data['product_name_fr'] == '':
                     food_name = name_category
@@ -62,45 +62,42 @@ class PopDBFromJsonWithCategories:
     @staticmethod
     def pop_db(dictionary_from_json):
         """Populate the database with the dictionary_from_json file."""
-
-        for product_from_json in dictionary_from_json[0]:
-            print('product_from_json => ', product_from_json)
-            # Populate other columns
-            food_list = FoodList(food_name=product_from_json["food_name"],
-                                 category=product_from_json["category"],
-                                 scora_nova_group=int(product_from_json["scora_nova_group"]),
-                                 nutri_score_grad=product_from_json["nutri_score_grad"],
-                                 food_url=product_from_json["food_url"],
-                                 image_src=product_from_json["image_src"])
-            food_list.save()
-            # stock allergens tag in list
-            data_allergens = product_from_json["allergen_list"]
-            allergens = []
-            if not data_allergens:
-                al = ""
-                try:
-                    aller = Allergen.objects.get(allergen_name=al)
-                    food_list.allergen_list.add(aller)
-                except:
-                    aller = Allergen.objects.create(allergen_name=al)
-                    food_list.allergen_list.add(aller)
-                    print('food_list : ', FoodList.objects.values())
-            else:
-                for al in data_allergens:
-                    # Choose only english name allergens
-                    if al[:3] == 'en:':
+        for inside_dictionary in dictionary_from_json:
+            for product_from_json in inside_dictionary:
+                # Populate columns
+                if FoodList.objects.filter(food_name=product_from_json["food_name"]):
+                    food_values_list = FoodList.objects.values_list('food_name', flat=True)
+                else:
+                    food_list = FoodList(food_name=product_from_json["food_name"],
+                                         category=product_from_json["category"],
+                                         scora_nova_group=int(product_from_json["scora_nova_group"]),
+                                         nutri_score_grad=product_from_json["nutri_score_grad"],
+                                         food_url=product_from_json["food_url"],
+                                         image_src=product_from_json["image_src"])
+                    food_list.save()
+                    # Stock allergens tag in list
+                    data_allergens = product_from_json["allergen_list"]
+                    # Add list of allergens from json in allergens_list
+                    allergens = []
+                    allergens_list = []
+                    for allergens_raw in data_allergens.split(','):
+                        # # Choose only english name allergens
+                        # if allergens_raw[:3] == 'en:':
                         # List all allergens in each product
-                        allergens.append(al)
-                # List of allergens without dooble
-                allergens_list = set(allergens)
-                # Insertion in Allergen table of allergens if allergens not in database
-                for al in allergens_list:
-                    try:
-                        aller = Allergen.objects.get(allergen_name=al)
-                        food_list.allergen_list.add(aller)
-                    except:
-                        aller = Allergen.objects.create(allergen_name=al)
-                        food_list.allergen_list.add(aller)
+                        allergens.append(allergens_raw)
+                        # List of allergens without double
+                        allergens_list = set(allergens)
+
+                    # Add allergen from allergen_list in database if not present in database
+                    for allergen in allergens_list:
+                        if Allergen.objects.filter(allergen_name=allergen):
+                            aller = Allergen.objects.get(allergen_name=allergen)
+                            food_list.allergen_list.add(aller)
+                        else:
+                            aller = Allergen(allergen_name=allergen)
+                            aller.save()
+                            food_list.allergen_list.add(aller)
+
 
     def pop_db_with_categories(self, name_category):
         """Use json_from_api and pop_db for 30 different categories of foods. """

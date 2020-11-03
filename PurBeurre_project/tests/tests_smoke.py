@@ -34,19 +34,18 @@ def tests_pop_db_with_categories():
     pop.pop_db(variables_bonbons)
     # Stoke data from model in dictionary
     dictionary_from_model = FoodList.objects.values()
+    print('\n=========================================\n\n\n', 'dictionary_from_model', dictionary_from_model)
     # Loop to assert that data from dictionary_from_json are stock in the database
     for product_from_model in dictionary_from_model:
-        for product_from_json in dictionary_from_json_bonbon[0]:
-            assert product_from_model["food_name"] == product_from_json["food_name"]
-            assert product_from_model["category"] == product_from_json["category"]
-            assert product_from_model["scora_nova_group"] == product_from_json["scora_nova_group"]
-            assert product_from_model["nutri_score_grad"] == product_from_json["nutri_score_grad"]
-            assert product_from_model["food_url"] == product_from_json["food_url"]
-            assert product_from_model["image_src"] == product_from_json["image_src"]
-            # Verify the many to many relation between FoodList and Allergen
-            allergen_from_model = Allergen.objects.filter(foodlist__id=product_from_model["id"]).values()
-            for allergen_from_json in product_from_json["allergen_list"].split(","):
-                for allergen_in_product_model in allergen_from_model:
-                    assert allergen_in_product_model['allergen_name'] == allergen_from_json
-            # Verify that food_list item contain an id
-            assert int(product_from_model["id"])
+        assert str(product_from_model["food_name"])
+        assert str(product_from_model["category"])
+        assert int(product_from_model["scora_nova_group"])
+        assert str(product_from_model["nutri_score_grad"])
+        assert str(product_from_model["food_url"])
+        assert str(product_from_model["image_src"])
+        # Verify the many to many relation between FoodList and Allergen)
+        allergen_from_model = Allergen.objects.filter(foodlist__id=product_from_model["id"]).values()
+        for allergen_in_product_model in allergen_from_model:
+            assert str(allergen_in_product_model['allergen_name'])
+        # Verify that food_list item contain an id
+        assert int(product_from_model["id"])
