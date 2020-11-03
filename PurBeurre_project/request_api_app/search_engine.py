@@ -34,7 +34,6 @@ class PopDBFromJsonWithCategories:
         """Extract useful data from json and stock it in variables"""
         # Loop through data_category_json and stock useful data in dictionary_from_json
         dictionary_from_json = []
-        print('\n==================\n\n\n', 'data_category_json => ', data_category_json, '\n==================\n\n\n')
         for data in data_category_json[0]['products']:
             try:
                 if data['product_name_fr'] == '':
@@ -98,7 +97,6 @@ class PopDBFromJsonWithCategories:
                             aller.save()
                             food_list.allergen_list.add(aller)
 
-
     def pop_db_with_categories(self, name_category):
         """Use json_from_api and pop_db for 30 different categories of foods. """
         categories_list = ['pizza', 'pate a tartiner', 'gateau', 'choucroute', 'bonbon', 'cassoulet', 'compote',
@@ -114,8 +112,7 @@ class PopDBFromJsonWithCategories:
             dictionary_from_json_var = self.variables_from_foods_json(data_category_json_var)
             self.pop_db(dictionary_from_json_var)
         # Fill with category define in function
-        for category_name in categories_list:
-            data_category_json = self.json_from_api(category_name)
-            dictionary_from_json = self.variables_from_foods_json(data_category_json)
-            self.pop_db(dictionary_from_json)
-
+        # for category_name in categories_list:
+        #     data_category_json = self.json_from_api(category_name)
+        #     dictionary_from_json = self.variables_from_foods_json(data_category_json)
+        #     self.pop_db(dictionary_from_json)
