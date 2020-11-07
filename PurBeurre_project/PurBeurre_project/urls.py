@@ -45,8 +45,8 @@ urlpatterns = [
 ]
 
 # Run initial script
-pop_db_with_categories()
-fill_up_diet()
+# pop_db_with_categories()
+# fill_up_diet()
 
 if settings.DEBUG:
     import debug_toolbar
