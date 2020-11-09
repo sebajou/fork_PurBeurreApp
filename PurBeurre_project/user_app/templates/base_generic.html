@@ -36,7 +36,7 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                        <form class="navbar-button" action="{% url 'search_results' %}" method="post">{% csrf_token %}<input id="search" type="text" placeholder="Chercher"></form>
+                        <form class="navbar-button" action="{% url 'search_results' %}" method="post">{% csrf_token %}<input id="search" type="text" placeholder="Chercher" name="search" ></form>
                         <a class="navbar-button" href="{% url 'profile' %}"><i class="far fa-user-circle fa-3x"></i></a>
                         <a class="navbar-button" href="{% url 'my_foods' %}"><i class="icon-Carrot fa-3x"></i></a>
                         <a class="navbar-button" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt fa-3x"></i></a>

@@ -30,6 +30,7 @@ class TestRoutesGeneral:
         response = c.get('/database_handler_app/my_foods/')
         assert response.status_code == 200
 
+    @pytest.mark.django_db
     def test_search_food(self):
         search_food_req = self.search_food_request
         response = c.post('/database_handler_app/search_results/', search_food_req)

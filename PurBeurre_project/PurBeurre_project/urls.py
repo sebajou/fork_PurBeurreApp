@@ -17,6 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path, re_path
 from database_handler_app import views as database_handler_views
+from request_api_app import views as request_api_app
 from user_app import views as user_views
 from django.views.generic import TemplateView
 from request_api_app.search_engine import pop_db_with_categories

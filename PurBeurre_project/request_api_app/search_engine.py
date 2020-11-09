@@ -5,7 +5,6 @@ import string
 import pickle
 
 
-
 class PopDBFromJsonWithCategories:
     """
     This class allow to populate the application's database with data from Open Fact Foods.
@@ -116,7 +115,7 @@ def pop_db_with_categories(given_categories_name=None):
                        'croissants', 'pesto', 'couscous', 'confiture', 'biscuit', 'chocolat', 'croissant',
                        'yahourt', 'soda', 'céréales pour petit-déjeuner', 'biscotte', 'patte', 'riz',
                        'lentille', 'pâtes feuilletées', 'pâtes brisées', 'pâte sablée', 'saucisse',
-                       'jambon', 'saucissons', 'poissons', 'tofu', 'fromages']
+                       'jambon', 'saucissons', 'poissons', 'tofu', 'fromages', 'mayonnaise']
     pop = PopDBFromJsonWithCategories()
     if given_categories_name is not None:
         pop.pop_db_all_foo(given_categories_name)
@@ -142,14 +141,17 @@ class Parser:
     def format_message(message_from_front):
         """Format message from front user input"""
         # Parse input message
-        message_from_front = message_from_front.lower()
-        message_from_front = message_from_front.strip(string.punctuation)
-        message_from_front = message_from_front.replace("\'", " ")
-        message_from_front = message_from_front.replace(",", "")
-        message_from_front = message_from_front.replace(".", "")
-        message_from_front = message_from_front.strip()
-        message_from_front = message_from_front.split(" ")
-        return message_from_front
+        try:
+            message_from_front = message_from_front.lower()
+            message_from_front = message_from_front.strip(string.punctuation)
+            message_from_front = message_from_front.replace("\'", " ")
+            message_from_front = message_from_front.replace(",", "")
+            message_from_front = message_from_front.replace(".", "")
+            message_from_front = message_from_front.strip()
+            message_from_front = message_from_front.split(" ")
+            return message_from_front
+        except AttributeError as NoTy:
+            return ""
 
     def format_verb(self, message_from_front):
         """Format message from front user input by removing verb"""
@@ -183,14 +185,18 @@ class FindSubstitute:
     This class contain functions which allow User to find Food in database,
     then find a healthy substitute from Open Food Facts API.
     """
-    def database_search_and_find(self, key_sentence):
+
+    @staticmethod
+    def database_search_and_find(key_sentence):
         """This function allows User to find foods list in database from key word enter in search field"""
         # Parse key sentence to create key words => split sentence, remove useless word with stop word
         parser = Parser()
         list_key_words = parser.parse_message_from_front(message_from_front=key_sentence)
         print('list_key_words => ', list_key_words)
         # Collect in dictionnary id, food name and category
-        list_dict_to_compare_foodlist = list(FoodList.objects.values('id', 'food_name', 'category'))
+        list_dict_to_compare_foodlist = list(FoodList.objects.values('id', 'food_name', 'category',
+                                                                     'image_src', 'nutri_score_grad',
+                                                                     'food_url'))
         # print('QuerySet list_dict_to_compare_foodlist => ', FoodList.objects.values('id', 'food_name', 'category'))
         # print('list_dict_to_compare_foodlist => ', list_dict_to_compare_foodlist)
         # Process on key words data => compare key words with category name and food_name in database
@@ -203,36 +209,64 @@ class FindSubstitute:
                 list_food_name = [x.lower() for x in dict_in_foodlist['food_name'].split(' ')]
                 if element_key_words.lower() in list_food_name:
                     score += 1
-                    print(score)
+                    # print(score)
                 list_category = [x.lower() for x in dict_in_foodlist['category'].split(' ')]
                 if element_key_words.lower() in list_category:
                     score += 2
-                    print(score)
+                    # print(score)
                 else:
-                    print('pass')
+                    # print('pass')
+                    pass
             dict_in_foodlist_with_score = {'id': dict_in_foodlist['id'],
-                                'food_name': dict_in_foodlist['food_name'],
-                                'category': dict_in_foodlist['category'],
-                                'score': score}
+                                           'food_name': dict_in_foodlist['food_name'],
+                                           'category': dict_in_foodlist['category'],
+                                           'image_src': dict_in_foodlist['image_src'],
+                                           'nutri_score_grad': dict_in_foodlist['nutri_score_grad'],
+                                           'food_url': dict_in_foodlist['food_url'],
+                                           'score': score}
             list_dict_with_score_foodlist.append(dict_in_foodlist_with_score)
 
         # Display ordered list of food from score matching
         # or if not results display "Nous n'avons pas trouvé... "
-        list_dict_with_score_foodlist = sorted(list_dict_with_score_foodlist, key=lambda i: i['score'],reverse=True)
-        print('list_dict_with_score_foodlist => ', list_dict_with_score_foodlist)
+        list_dict_with_score_foodlist = sorted(list_dict_with_score_foodlist, key=lambda i: i['score'], reverse=True)
+        # print('list_dict_with_score_foodlist => ', list_dict_with_score_foodlist)
         list_id_food_find_with_key_word = list_dict_with_score_foodlist
         list_id = []
         for element_score in list_dict_with_score_foodlist:
-             list_id.append(element_score['id'])
+            list_id.append(element_score['id'])
 
-        return list_id
+        # Return the dictionary of the first search matching product
+        return list_dict_with_score_foodlist[:1]
+        # Return list of id, ordered with the 10 first the better score
+        # print('list_id => ', list_id)
+        # return list_id[:10]
+        # return list_dict_with_score_foodlist
 
-    def healthy_substitute(self, id_food_from_search_choose):
+    @staticmethod
+    def healthy_substitute(id_food_from_search_choose):
         """This function search a subsitute of food in Open Fact Food API"""
         # Find category associated with given id
-        # Request API with category name (call PopDBFromJsonWithCategories.pop_db_with_categories(given_categories_name)
+        category_from_id = FoodList.objects.filter(id=id_food_from_search_choose).values()
+        given_categories_name = category_from_id[0]['category']
+        print('given_categories_name => ', given_categories_name)
+        # Request API with category name
         # Database populate update for this key word category
+        pop = PopDBFromJsonWithCategories()
+        pop.pop_db_all_foo(given_categories_name)
+
         # Find better nutritional score food and associated id from database in this category
+        top_scores = (FoodList.objects
+                      .order_by('nutri_score_grad')
+                      .values_list('nutri_score_grad', flat=True)
+                      .distinct()
+                      .filter(category=given_categories_name))
+        print('top_scores => ', top_scores)
+        dic_healthy_substitute_from_categories = (FoodList
+                                                  .objects.order_by('nutri_score_grad')
+                                                  .filter(nutri_score_grad__in=top_scores)
+                                                  .filter(category=given_categories_name)
+                                                  .values()[:6])
+        print('dic_healthy_substitute_from_categories => ', dic_healthy_substitute_from_categories)
         # Build dictionary of food characteristic with id
-        dic_healthy_substitute_from_categories = id_food_from_search_choose
+        # dic_healthy_substitute_from_categories = dic_healthy_substitute_from_categories[0]
         return dic_healthy_substitute_from_categories

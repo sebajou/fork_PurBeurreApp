@@ -10209,3 +10209,34 @@ fas
     text-align: left;
     margin-left: 30%;
 }
+
+/* Fitures for search result display */
+
+.headband{
+    display: block;
+    height: 270px;
+    margin: 0; padding: 0;
+    margin-bottom: -1rem;
+    margin-top: -1rem;
+    background : black;
+}
+
+.headtext{
+    display: flex;
+    color: white;
+    text-align: right;
+    margin-right:35%;
+    float: right;
+    align-items:center;
+}
+
+.headband img{
+    height: 270px;
+    text-align:left;
+    margin-left:35%;
+    float: left;
+}
+
+.headband:hover .headtext{
+    opacity: 1;
+}

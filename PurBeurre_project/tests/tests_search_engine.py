@@ -88,16 +88,16 @@ class TestsFindSubstitute:
         self.key_sentence = "Bonbon à la fraises"
         self.category = "bonbon"
         # Schema of dictionay of substitute values from database
-        self.schema = Schema([{
+        self.schema = Schema({
+            "id": And(int),
             "food_name": And(str),
             "category": And(str),
             "scora_nova_group": And(int),
             "nutri_score_grad": And(str),
             "food_url": And(str),
             "image_src": And(str),
-            "allergen_list": And(str),
-        }])
-        self.id_food_from_search_choose = 245
+        })
+        self.id_food_from_search_choose = 2020
 
     @pytest.mark.django_db(transaction=True)
     def test_database_search_and_find(self, django_db_setup):
@@ -113,6 +113,7 @@ class TestsFindSubstitute:
         for element_id in list_id_food_from_search:
             assert element_id in list_existing_id_in_food_list
 
+    @pytest.mark.django_db()
     def test_healthy_substitute(self):
         id_food = self.id_food_from_search_choose
         dictionary_schema = self.schema

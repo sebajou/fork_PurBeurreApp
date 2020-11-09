@@ -1,8 +1,14 @@
 {% extends "base_user.html" %}
 
 
+{% block headband %}
+        {% for ele in list_id %}
+                <p><div class="headband"><img src={{ ele.image_src }} alt=""/><div class="headtext"> <a href={{ ele.food_url }}>{{ ele.food_name }}</a> </div></div></p>
+        {% endfor %}
+{% endblock %}
 {% block content %}
-
-        {{ message }}
-
+        <p>{{ message }}</p>
+        {% for ele_healthy_substitute in dict_healthy_substitute %}
+                <p>{{ ele_healthy_substitute }}</p>
+        {% endfor %}
 {% endblock %}
