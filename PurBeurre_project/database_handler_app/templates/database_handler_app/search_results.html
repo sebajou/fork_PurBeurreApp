@@ -1,14 +1,61 @@
-{% extends "base_user.html" %}
+{% extends "base_generic.html" %}
 
 
 {% block headband %}
+<div class="container-fluid">
+    <div class="row bg-dark">
+        <div class="col-12">
         {% for ele in list_id %}
-                <p><div class="headband"><img src={{ ele.image_src }} alt=""/><div class="headtext"> <a href={{ ele.food_url }}>{{ ele.food_name }}</a> </div></div></p>
+            <p>
+                <div class="headband mt-5">
+                <a class="stretched-link" href={{ ele.food_url }}>
+                  <img class="card-img-top mt-5 mb-0" src={{ ele.image_src }} alt=""/>
+                    <div class="headtext">
+                            {{ ele.food_name }}
+                    </div>
+                </a>
+                </div>
+            </p>
         {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block content %}
-        <p>{{ message }}</p>
+<section class="page-section" id="container-content">
+<div class="container">
+        <div class="row">
+             <div class="col">
+                <p><h3 class="text-center">{{ message }}</h3></p>
+             </div>
+        </div>
+        <div class="row">
         {% for ele_healthy_substitute in dict_healthy_substitute %}
-                <p>{{ ele_healthy_substitute }}</p>
+        <div class="col-12 col-lg-4">
+                <div class="card shadow-lg border-dark m-5 p-4">
+                    <a href="#">
+                        {% if ele_healthy_substitute.nutri_score_grad == "a" %}
+                            <span class="badge badge-pill badge-success w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                        {% elif ele_healthy_substitute.nutri_score_grad == "b" %}
+                            <span class="badge badge-pill badge-success w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                        {% elif ele_healthy_substitute.nutri_score_grad == "c"  %}
+                            <span class="badge badge-pill badge-warning w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                        {% elif ele_healthy_substitute.nutri_score_grad == "d" %}
+                            <span class="badge badge-pill badge-danger w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                        {% elif ele_healthy_substitute.nutri_score_grad == "e" %}
+                            <span class="badge badge-pill badge-danger w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                        {% endif %}
+                        <img class="card-img-top" src={{ ele_healthy_substitute.image_src }} alt={{ ele_healthy_substitute.food_name }}>
+
+                    </a>
+                   <div class="card-body">
+                      <h5 class="card-title">{{ ele_healthy_substitute.food_name }}</h5>
+                   </div>
+                </div>
+                <a class="stretched-link" href={{ ele_healthy_substitute.food_url }}></a>
+        </div>
         {% endfor %}
+        </div>
+        </div>
+</section>
 {% endblock %}

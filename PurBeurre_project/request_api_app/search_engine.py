@@ -115,7 +115,8 @@ def pop_db_with_categories(given_categories_name=None):
                        'croissants', 'pesto', 'couscous', 'confiture', 'biscuit', 'chocolat', 'croissant',
                        'yahourt', 'soda', 'céréales pour petit-déjeuner', 'biscotte', 'patte', 'riz',
                        'lentille', 'pâtes feuilletées', 'pâtes brisées', 'pâte sablée', 'saucisse',
-                       'jambon', 'saucissons', 'poissons', 'tofu', 'fromages', 'mayonnaise']
+                       'jambon', 'saucissons', 'poissons', 'tofu', 'fromages', 'mayonnaise', 'fromages',
+                       'beurre', 'sushis', 'produits à tartiner']
     pop = PopDBFromJsonWithCategories()
     if given_categories_name is not None:
         pop.pop_db_all_foo(given_categories_name)
@@ -190,8 +191,19 @@ class FindSubstitute:
     def database_search_and_find(key_sentence):
         """This function allows User to find foods list in database from key word enter in search field"""
         # Parse key sentence to create key words => split sentence, remove useless word with stop word
+        # if not key_sentence:
+        #     list_dict_with_score_foodlist = [{'id': 0,
+        #      'food_name': 'pas d\'aliment,
+        #      'category': 'pas de categorie',
+        #      'image_src': '',
+        #      'nutri_score_grad': 'a',
+        #      'food_url': dict_in_foodlist['food_url'],
+        #      'score': score}]
+        #     return list_dict_with_score_foodlist[:1]
         parser = Parser()
         list_key_words = parser.parse_message_from_front(message_from_front=key_sentence)
+        if not list_key_words:
+            return ['-µ-empty-µ-']
         print('list_key_words => ', list_key_words)
         # Collect in dictionnary id, food name and category
         list_dict_to_compare_foodlist = list(FoodList.objects.values('id', 'food_name', 'category',
@@ -235,6 +247,11 @@ class FindSubstitute:
         for element_score in list_dict_with_score_foodlist:
             list_id.append(element_score['id'])
 
+        # If all score of matching is 0, we consider the request absurd
+        for element_id in list_dict_with_score_foodlist[:1]:
+            print('element_id => ', element_id)
+            if element_id['score'] == 0:
+                return ['-µ-absurd-µ-']
         # Return the dictionary of the first search matching product
         return list_dict_with_score_foodlist[:1]
         # Return list of id, ordered with the 10 first the better score
@@ -251,8 +268,8 @@ class FindSubstitute:
         print('given_categories_name => ', given_categories_name)
         # Request API with category name
         # Database populate update for this key word category
-        pop = PopDBFromJsonWithCategories()
-        pop.pop_db_all_foo(given_categories_name)
+        # pop = PopDBFromJsonWithCategories()
+        # pop.pop_db_all_foo(given_categories_name)
 
         # Find better nutritional score food and associated id from database in this category
         top_scores = (FoodList.objects
