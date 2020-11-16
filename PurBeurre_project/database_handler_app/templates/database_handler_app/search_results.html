@@ -33,26 +33,29 @@
         {% for ele_healthy_substitute in dict_healthy_substitute %}
         <div class="col-12 col-lg-4">
                 <div class="card shadow-lg border-dark m-5 p-4">
-                    <a href="#">
-                        {% if ele_healthy_substitute.nutri_score_grad == "a" %}
-                            <span class="badge badge-pill badge-success w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
-                        {% elif ele_healthy_substitute.nutri_score_grad == "b" %}
-                            <span class="badge badge-pill badge-success w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
-                        {% elif ele_healthy_substitute.nutri_score_grad == "c"  %}
-                            <span class="badge badge-pill badge-warning w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
-                        {% elif ele_healthy_substitute.nutri_score_grad == "d" %}
-                            <span class="badge badge-pill badge-danger w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
-                        {% elif ele_healthy_substitute.nutri_score_grad == "e" %}
-                            <span class="badge badge-pill badge-danger w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
-                        {% endif %}
-                        <img class="card-img-top" src={{ ele_healthy_substitute.image_src }} alt={{ ele_healthy_substitute.food_name }}>
+                        <a href="#">
+                            {% if ele_healthy_substitute.nutri_score_grad == "a" %}
+                                <span class="badge badge-pill badge-success w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                            {% elif ele_healthy_substitute.nutri_score_grad == "b" %}
+                                <span class="badge badge-pill badge-success w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                            {% elif ele_healthy_substitute.nutri_score_grad == "c"  %}
+                                <span class="badge badge-pill badge-warning w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                            {% elif ele_healthy_substitute.nutri_score_grad == "d" %}
+                                <span class="badge badge-pill badge-danger w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                            {% elif ele_healthy_substitute.nutri_score_grad == "e" %}
+                                <span class="badge badge-pill badge-danger w-3">{{ ele_healthy_substitute.nutri_score_grad }}</span>
+                            {% endif %}
+                            <a class="link" href={{ ele_healthy_substitute.food_url }}><img class="card-img-top" src={{ ele_healthy_substitute.image_src }} alt={{ ele_healthy_substitute.food_name }}></a>
 
-                    </a>
-                   <div class="card-body">
-                      <h5 class="card-title">{{ ele_healthy_substitute.food_name }}</h5>
-                   </div>
+                        </a>
+                       <div class="card-body">
+                          <a class="link" href={{ ele_healthy_substitute.food_url }}<h5 class="card-title">{{ ele_healthy_substitute.food_name }}</h5></a>
+                       </div>
+                <!--<form class="record_favorite" method="post">{% csrf_token %}<button type="submit" class="btn btn-primary" value="{{ ele_healthy_substitute.id }}">Enregistrer le produit dans les favoris</button></form>-->
+                    <form id="form_favorite_id" method='post'>{% csrf_token %}
+                            <button class="btn btn-primary" type="submit"><script id="food_id" type="application/json">{"food_id": "{{ ele_healthy_substitute.id }}"}</script><script id="url_for_post" type="application/json">{"url_for_post": "{% url 'ajax_is_favorite' %}"}</script>Enregistrer le produit dans les favoris</button>
+                    </form>
                 </div>
-                <a class="stretched-link" href={{ ele_healthy_substitute.food_url }}></a>
         </div>
         {% endfor %}
         </div>

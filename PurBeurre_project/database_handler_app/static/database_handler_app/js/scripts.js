@@ -61,3 +61,25 @@
   });
 
 })(jQuery); // End of use strict
+
+// Ajax for favorite food record
+$("#form_favorite_id").on('submit', function(event) {
+   event.preventDefault();
+   console.log("trig from form_favorite")
+   var id_favorite_food = JSON.parse(document.getElementById('food_id').textContent);
+   var url_for_post = JSON.parse(document.getElementById('url_for_post').textContent);
+   console.log(id_favorite_food)
+   $.ajax({
+       type: "POST",
+       url: url_for_post,
+       data:{
+             id_favorite_food:id_favorite_food,
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+       },
+       datatype:'json',
+       success: function(data) {
+         if (data['success'])
+            alert("successfully added to favorites")
+       }
+   });
+});
