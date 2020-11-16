@@ -32,19 +32,20 @@ def search_results(request):
 def ajax_is_favorite(request):
     data = {'success': False}
     if request.method == 'POST':
-        id_favorite_food = request.POST.get('id_favorite_food')
+        id_favorite_food = int(request.POST.get('id_favorite_food'))
         print('id_favorite_food => ', id_favorite_food)
         current_user = request.user
         print('current_user => ', current_user)
         qs_user = MyUsers.objects.get(username=current_user)
         print('qs_user => ', qs_user)
-        if Favorites.objects.get(id_food_list=id_favorite_food):
+        if Favorites.objects.filter(id_food_list=id_favorite_food):
             qs_favorite = Favorites.objects.get(id_food_list=id_favorite_food)
         else:
-            Favorites.objects.create(id_food_list=id_favorite_food)
+            fav = Favorites(id_food_list_id=id_favorite_food)
+            fav.save()
             qs_favorite = Favorites.objects.get(id_food_list=id_favorite_food)
         print('qs_favorite => ', qs_favorite)
-        qs_user.favorites_list.add(qs_favorite)
+        qs_favorite.favorites_list.add(qs_user)
         data['success'] = True
     return JsonResponse(data)
 

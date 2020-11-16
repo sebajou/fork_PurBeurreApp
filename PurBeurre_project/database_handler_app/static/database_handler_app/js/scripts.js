@@ -68,18 +68,19 @@ $("#form_favorite_id").on('submit', function(event) {
    console.log("trig from form_favorite")
    var id_favorite_food = JSON.parse(document.getElementById('food_id').textContent);
    var url_for_post = JSON.parse(document.getElementById('url_for_post').textContent);
-   console.log(id_favorite_food)
+   console.log(id_favorite_food.food_id)
+   console.log(url_for_post.url_for_post)
    $.ajax({
        type: "POST",
-       url: url_for_post,
+       url: url_for_post.url_for_post,
        data:{
-             id_favorite_food:id_favorite_food,
+             id_favorite_food:id_favorite_food.food_id,
             'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
        },
        datatype:'json',
        success: function(data) {
          if (data['success'])
-            alert("successfully added to favorites")
+            alert("L'aliment à été ajouté aux favoris")
        }
    });
 });
