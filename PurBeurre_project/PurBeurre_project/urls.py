@@ -43,7 +43,7 @@ urlpatterns = [
     path('user_app/', include('user_app.urls')),
     path('database_handler_app/', include('database_handler_app.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('database_handler_app/ajax_is_favorite/', database_handler_views.ajax_is_favorite, name='ajax_is_favorite'),
+    path('database_handler_app/is_favorite/', database_handler_views.is_favorite, name='is_favorite'),
 ]
 
 # Run initial script

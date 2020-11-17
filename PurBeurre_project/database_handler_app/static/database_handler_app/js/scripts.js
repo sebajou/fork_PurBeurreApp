@@ -63,13 +63,15 @@
 })(jQuery); // End of use strict
 
 // Ajax for favorite food record
-$("#form_favorite_id").on('submit', function(event) {
+/* $("#form_favorite_id").on('submit', function(event) {
    event.preventDefault();
    console.log("trig from form_favorite")
    var id_favorite_food = JSON.parse(document.getElementById('food_id').textContent);
    var url_for_post = JSON.parse(document.getElementById('url_for_post').textContent);
+   var forloop_counter = JSON.parse(document.getElementById('forloop_counter').textContent);
    console.log(id_favorite_food.food_id)
    console.log(url_for_post.url_for_post)
+   console.log(forloop_counter.forloop_counter)
    $.ajax({
        type: "POST",
        url: url_for_post.url_for_post,
@@ -83,4 +85,4 @@ $("#form_favorite_id").on('submit', function(event) {
             alert("L'aliment à été ajouté aux favoris")
        }
    });
-});
+}); */

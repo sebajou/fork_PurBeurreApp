@@ -3,6 +3,7 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from request_api_app.search_engine import FindSubstitute
 from database_handler_app.models import MyUsers, Favorites
+from database_handler_app.record_favorite_form import RecordFavoriteForm
 
 
 def index(request):
@@ -29,25 +30,31 @@ def search_results(request):
                       {'list_id': list_id, 'message': message, 'dict_healthy_substitute': dict_healthy_substitute})
 
 
-def ajax_is_favorite(request):
-    data = {'success': False}
+def is_favorite(request):
     if request.method == 'POST':
-        id_favorite_food = int(request.POST.get('id_favorite_food'))
-        print('id_favorite_food => ', id_favorite_food)
-        current_user = request.user
-        print('current_user => ', current_user)
-        qs_user = MyUsers.objects.get(username=current_user)
-        print('qs_user => ', qs_user)
-        if Favorites.objects.filter(id_food_list=id_favorite_food):
-            qs_favorite = Favorites.objects.get(id_food_list=id_favorite_food)
-        else:
-            fav = Favorites(id_food_list_id=id_favorite_food)
-            fav.save()
-            qs_favorite = Favorites.objects.get(id_food_list=id_favorite_food)
-        print('qs_favorite => ', qs_favorite)
-        qs_favorite.favorites_list.add(qs_user)
-        data['success'] = True
-    return JsonResponse(data)
+        form = RecordFavoriteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # id_favorite_food = form.cleaned_data.get('id_favorite_food')
+            # id_favorite_food = request.POST.get('id_favorite_food', None)
+            id_favorite_food = form.cleaned_data['favorite_substitute_id']
+            print('id_favorite_food => ', id_favorite_food)
+            current_user = request.user
+            print('current_user => ', current_user)
+            qs_user = MyUsers.objects.get(username=current_user)
+            print('qs_user => ', qs_user)
+            if Favorites.objects.filter(id_food_list=id_favorite_food):
+                qs_favorite = Favorites.objects.get(id_food_list=id_favorite_food)
+            else:
+                fav = Favorites(id_food_list_id=id_favorite_food)
+                fav.save()
+                qs_favorite = Favorites.objects.get(id_food_list=id_favorite_food)
+            print('qs_favorite => ', qs_favorite)
+            qs_favorite.favorites_list.add(qs_user)
+            return redirect('my_foods')
+    else:
+        form = RecordFavoriteForm()
+    return render(request, 'database_handler_app/search_results.html', {'form': form})
 
 
 def legal_mention(request):
