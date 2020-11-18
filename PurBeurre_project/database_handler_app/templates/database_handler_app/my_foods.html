@@ -3,6 +3,8 @@
 
 {% block content %}
 
-        {{ message }}
+    {% for ele_favorites_of_user in list_dict_favorites_of_user %}
+        <li>{{ ele_favorites_of_user.food_name }}</li>
+    {% endfor %}
 
 {% endblock %}

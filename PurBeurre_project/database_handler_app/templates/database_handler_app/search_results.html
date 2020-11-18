@@ -51,19 +51,24 @@
                        <div class="card-body">
                           <a class="link" href={{ ele_healthy_substitute.food_url }}<h5 class="card-title">{{ ele_healthy_substitute.food_name }}</h5></a>
                        </div>
-                <!--<form class="record_favorite" method="post">{% csrf_token %}<button type="submit" class="btn btn-primary" value="{{ ele_healthy_substitute.id }}">Enregistrer le produit dans les favoris</button></form>-->
+                        <form class="record_favorite" action="{% url 'is_favorite' %}" method="post">
+                            {% csrf_token %}
+                            <input id="favorite_substitute_id" type="hidden" value="{{ ele_healthy_substitute.id }}"  name="favorite_substitute_id" >
+                            <button class="btn btn-primary" type="submit">Enregistrer le produit dans les favoris</button>
+                        </form>
+                <!--<form class="record_favorite" method="post">{% csrf_token %}<button type="submit" class="btn btn-primary" value="{{ ele_healthy_substitute.id }}">Enregistrer le produit dans les favoris</button></form>
                     <form action="{% url 'my_foods' %}" method='post'>
                         {% csrf_token %}
                         {{ form.favorite_substitute_id.label_tag }}
                         <input class="btn btn-primary" name="favorite_substitute_id"  type="submit" value="{{ ele_healthy_substitute.id }}">
-                        <!--<input name="favorite_substitute_id" type="text" value="{{ ele_healthy_substitute.id }}">
-                        <button class="btn btn-primary" type="submit">Enregistrer le produit dans les favoris</button>-->
+                        <input name="favorite_substitute_id" type="text" value="{{ ele_healthy_substitute.id }}">
+                        <button class="btn btn-primary" type="submit">Enregistrer le produit dans les favoris</button>
 
 
                                 <!-- <script id="food_id" action="database_handler_app/my_foods">{"food_id": "{{ ele_healthy_substitute.id }}"}</script>
                                 <script id="url_for_post" action="database_handler_app/my_foods">{"url_for_post": ""}</script>
-                                <script id="forloop_counter" action="database_handler_app/my_foods">{"forloop_counter": "{{ forloop.counter }}"}</script>-->
-                    </form>
+                                <script id="forloop_counter" action="database_handler_app/my_foods">{"forloop_counter": "{{ forloop.counter }}"}</script>
+                    </form>-->
                 </div>
         </div>
         {% endfor %}
