@@ -77,8 +77,13 @@ def my_foods(request):
             qs_dict_favortites_of_user = qs_dict_favortites_of_user.values()
             for dict_favortites_of_user in qs_dict_favortites_of_user:
                 list_dict_favorites_of_user.append(dict_favortites_of_user)
+        if list_dict_favorites_of_user:
+            message = "Votre liste de produit favories : "
+        else:
+            message = "Vous n'avez pas de favories enregistré. "
 
-        return render(request, 'database_handler_app/my_foods.html', {'list_dict_favorites_of_user': list_dict_favorites_of_user})
+        return render(request, 'database_handler_app/my_foods.html',
+                      {'list_dict_favorites_of_user': list_dict_favorites_of_user, 'message': message})
 
     else:
         return render(request, 'registration/login.html')

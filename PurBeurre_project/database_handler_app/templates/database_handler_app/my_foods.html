@@ -1,10 +1,39 @@
 {% extends "base_user.html" %}
 
-
 {% block content %}
-
-    {% for ele_favorites_of_user in list_dict_favorites_of_user %}
-        <li>{{ ele_favorites_of_user.food_name }}</li>
-    {% endfor %}
+<section class="page-section" id="container-content">
+    <div class="container">
+        <div class="row">
+             <div class="col">
+                <p><h3 class="text-center">{{ message }}</h3></p>
+             </div>
+        </div>
+        <div class="row">
+        {% for ele_favorites_of_user in list_dict_favorites_of_user %}
+        <div class="col-12 col-lg-4">
+                <div class="card shadow-lg border-dark m-5 p-4">
+                        <a href="#">
+                            {% if ele_favorites_of_user.nutri_score_grad == "a" %}
+                                <span class="badge badge-pill badge-success w-3">{{ ele_favorites_of_user.nutri_score_grad }}</span>
+                            {% elif ele_favorites_of_user.nutri_score_grad == "b" %}
+                                <span class="badge badge-pill badge-success w-3">{{ ele_favorites_of_user.nutri_score_grad }}</span>
+                            {% elif ele_favorites_of_user.nutri_score_grad == "c"  %}
+                                <span class="badge badge-pill badge-warning w-3">{{ ele_favorites_of_user.nutri_score_grad }}</span>
+                            {% elif ele_favorites_of_user.nutri_score_grad == "d" %}
+                                <span class="badge badge-pill badge-danger w-3">{{ ele_favorites_of_user.nutri_score_grad }}</span>
+                            {% elif ele_favorites_of_user.nutri_score_grad == "e" %}
+                                <span class="badge badge-pill badge-danger w-3">{{ ele_favorites_of_user.nutri_score_grad }}</span>
+                            {% endif %}
+                            <a class="link" href={{ ele_favorites_of_user.food_url }}><img class="card-img-top" src={{ ele_favorites_of_user.image_src }} alt={{ ele_favorites_of_user.food_name }}></a>
+                        </a>
+                       <div class="card-body">
+                          <a class="link" href={{ ele_favorites_of_user.food_url }}<h5 class="card-title">{{ ele_favorites_of_user.food_name }}</h5></a>
+                       </div>
+                </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</section>
 
 {% endblock %}
