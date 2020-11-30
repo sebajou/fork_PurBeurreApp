@@ -10232,3 +10232,19 @@ fas
     padding:5px 10px;
     font-size:20px;
 }
+
+.nutriscore {
+    height: 45%;
+    width: 45%;
+}
+
+.nutriments_table table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.nutriments_table td, th {
+  text-align: left;
+  padding: 8px;
+}

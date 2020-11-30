@@ -1,0 +1,71 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block headband %}
+<div class="container-fluid">
+    <div class="row bg-dark">
+        <div class="col-12">
+        {% for ele in dict_food %}
+            <p>
+                <div class="headband mt-5">
+                <a class="stretched-link" href={{ ele.food_url }}>
+                  <img class="card-img-top mt-5 mb-0" src={{ ele.image_src }} alt=""/>
+                    <div class="headtext">
+                            {{ ele.food_name }}
+                    </div>
+                </a>
+                </div>
+            </p>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="page-section" id="container-content">
+    <div class="container">
+        <div class="row">
+             <div class="col">
+                {% if message == "Nous n'avons pas de page pour cette aliments. " %}
+                    <p><h3 class="text-center">{{ message }}</h3></p>
+                {% elif message == "Nous avons une page pour cette aliments. " %}
+                {% endif %}
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+            {% for ele in dict_food %}
+                {% if ele.nutri_score_grad == "a" %}
+                    <a class="link" href="https://fr.wikipedia.org/wiki/Nutri-score"><img class="card-img-top nutriscore" src="{% static 'database_handler_app/assets/img/nutriscore/nutriscore-a.svg' %}" alt={{ ele.food_name }}></a>
+                {% elif ele.nutri_score_grad == "b" %}
+                    <a class="link" href="https://fr.wikipedia.org/wiki/Nutri-score"><img class="card-img-top nutriscore" src="{% static 'database_handler_app/assets/img/nutriscore/nutriscore-b.svg' %}" alt={{ ele.food_name }}></a>
+                {% elif ele.nutri_score_grad == "c" %}
+                    <a class="link" href="https://fr.wikipedia.org/wiki/Nutri-score"><img class="card-img-top nutriscore" src="{% static 'database_handler_app/assets/img/nutriscore/nutriscore-c.svg' %}" alt={{ ele.food_name }}></a>
+                {% elif ele.nutri_score_grad == "d" %}
+                    <a class="link" href="https://fr.wikipedia.org/wiki/Nutri-score"><img class="card-img-top nutriscore" src="{% static 'database_handler_app/assets/img/nutriscore/nutriscore-d.svg' %}" alt={{ ele.food_name }}></a>
+                {% elif ele.nutri_score_grad == "e" %}
+                    <a class="link" href="https://fr.wikipedia.org/wiki/Nutri-score"><img class="card-img-top nutriscore" src="{% static 'database_handler_app/assets/img/nutriscore/nutriscore-e.svg' %}" alt={{ ele.food_name }}></a>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div class="col-12 col-lg-6">
+                <table class="nutriments_table" style="width:100%">
+                        <tr><th>Repères nutritionnels pour 100g</th></tr>
+                    {% for key, value in dict_nutriments_100g.items %}
+                        <tr>
+                            <th>{{ key }}</th><th>{{ value }}</th>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-12">
+                {% for ele in dict_food %}
+                    <br><br><p><a class="link" href={{ ele.food_url }}><button class="btn btn-primary"><h5 class="card-title">Voir la fiche d'Open Food Facts. </h5></button></a></p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

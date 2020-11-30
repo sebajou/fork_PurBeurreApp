@@ -3,6 +3,7 @@ import json
 from database_handler_app.models import FoodList, Allergen
 import string
 import pickle
+import re
 
 
 class PopDBFromJsonWithCategories:
@@ -47,6 +48,18 @@ class PopDBFromJsonWithCategories:
                 nutri_score_grad = data['nutriscore_grade']
                 image_src = data['image_url']
                 allergen_list = data['allergens']
+                # Capt data from data['nutriments']
+                nutriments_100g = data['nutriments']
+                # Add to dictionary only appropriate nutriments for 100g
+                exclude_list = ['nova-group_100g', 'carbon-footprint-from-known-ingredients_100g',
+                                'nutrition-score-fr_100g', 'carbon-footprint-from-meat-or-fish_100g']
+                selected_nutriments_100g = {}
+                for key, value in nutriments_100g.items():
+                    # Filter only good element from nutriments_100g dictionary
+                    if key not in exclude_list:
+                        match = re.search(r"_100g", key)
+                        if match:
+                            selected_nutriments_100g[key] = value
                 # Add get data in returned  dictionary
                 dictionary_from_json.append([{"food_name": food_name,
                                               "category": name_category,
@@ -54,10 +67,10 @@ class PopDBFromJsonWithCategories:
                                               "nutri_score_grad": nutri_score_grad,
                                               "food_url": food_url,
                                               "image_src": image_src,
-                                              "allergen_list": allergen_list}])
+                                              "allergen_list": allergen_list,
+                                              "nutriments_100g": selected_nutriments_100g}])
             except (TypeError, KeyError):
                 print("One loop through the data_category_json doesn't work")
-
         return dictionary_from_json
 
     @staticmethod
@@ -74,7 +87,8 @@ class PopDBFromJsonWithCategories:
                                          scora_nova_group=int(product_from_json["scora_nova_group"]),
                                          nutri_score_grad=product_from_json["nutri_score_grad"],
                                          food_url=product_from_json["food_url"],
-                                         image_src=product_from_json["image_src"])
+                                         image_src=product_from_json["image_src"],
+                                         nutriments_100g=product_from_json["nutriments_100g"])
                     food_list.save()
                     # Stock allergens tag in list
                     data_allergens = product_from_json["allergen_list"]
@@ -98,6 +112,9 @@ class PopDBFromJsonWithCategories:
                             aller = Allergen(allergen_name=allergen)
                             aller.save()
                             food_list.allergen_list.add(aller)
+                # # Add the content of selected_nutriments_100g dictionary to the database
+                # food_list = FoodList(nutriments_100g=selected_nutriments_100g)
+                # food_list.save()
 
     def pop_db_all_foo(self, name_category):
         """Use json_from_api and pop_db for 30 different categories of foods. """
@@ -116,7 +133,7 @@ def pop_db_with_categories(given_categories_name=None):
                        'yahourt', 'soda', 'céréales pour petit-déjeuner', 'biscotte', 'patte', 'riz',
                        'lentille', 'pâtes feuilletées', 'pâtes brisées', 'pâte sablée', 'saucisse',
                        'jambon', 'saucissons', 'poissons', 'tofu', 'fromages', 'mayonnaise', 'fromages',
-                       'beurre', 'sushis', 'produits à tartiner']
+                       'beurre', 'sushis', 'produits à tartiner', 'yaourts']
     pop = PopDBFromJsonWithCategories()
     if given_categories_name is not None:
         pop.pop_db_all_foo(given_categories_name)

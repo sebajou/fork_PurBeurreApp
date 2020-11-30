@@ -23,6 +23,7 @@ class FoodList(models.Model):
     nutri_score_grad = models.CharField(max_length=1, unique=False, null=True)
     food_url = models.TextField(unique=False, null=True)
     image_src = models.TextField(unique=False, null=True)
+    nutriments_100g = models.TextField(unique=False, null=True)
     allergen_list = models.ManyToManyField(Allergen)
 
 

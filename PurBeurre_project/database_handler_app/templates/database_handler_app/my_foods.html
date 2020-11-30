@@ -27,7 +27,12 @@
                             <a class="link" href={{ ele_favorites_of_user.food_url }}><img class="card-img-top" src={{ ele_favorites_of_user.image_src }} alt={{ ele_favorites_of_user.food_name }}></a>
                         </a>
                        <div class="card-body">
-                          <a class="link" href={{ ele_favorites_of_user.food_url }}<h5 class="card-title">{{ ele_favorites_of_user.food_name }}</h5></a>
+                          <!--<a class="link" href={{ ele_favorites_of_user.food_url }}<h5 class="card-title">{{ ele_favorites_of_user.food_name }}</h5></a>-->
+                           <form class="display_food_page" action="{% url 'food_page' %}" method="post">
+                               {% csrf_token %}
+                               <input id="id_food" type="hidden" value="{{ ele_favorites_of_user.id }}"  name="id_food" >
+                               <button class="btn btn-primary" type="submit"><h5 class="card-title">{{ ele_favorites_of_user.food_name }}</h5></button>
+                           </form>
                        </div>
                 </div>
         </div>

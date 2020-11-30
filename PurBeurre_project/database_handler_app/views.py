@@ -3,6 +3,7 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from request_api_app.search_engine import FindSubstitute
 from database_handler_app.models import MyUsers, Favorites, FoodList
+import json
 
 
 def index(request):
@@ -87,3 +88,23 @@ def my_foods(request):
 
     else:
         return render(request, 'registration/login.html')
+
+
+def food_page(request):
+    if request.method == 'POST':
+        id_food = request.POST.get('id_food')
+        print("id_food => ", id_food)
+        if FoodList.objects.filter(id=id_food):
+            qs_dict_food = FoodList.objects.filter(id=id_food)
+            dict_food = qs_dict_food.values()
+            for ele in dict_food:
+                str_nutriments_100g = ele['nutriments_100g'].replace("\'", "\"")
+            dict_nutriments_100g = json.loads(str_nutriments_100g)
+            message = "Nous avons une page pour cette aliments. "
+        else:
+            message = "Nous n'avons pas de page pour cette aliments. "
+
+        return render(request, 'database_handler_app/food_page.html',
+                      {'dict_food': dict_food, 'dict_nutriments_100g': dict_nutriments_100g, 'message': message})
+        # return render(request, 'database_handler_app/food_page.html',
+        #               {'dict_food': dict_food, 'message': message})
