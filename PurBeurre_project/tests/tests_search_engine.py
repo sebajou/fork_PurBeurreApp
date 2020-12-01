@@ -26,6 +26,7 @@ class TestsPopDBFromJsonWithCategories:
             "food_url": And(str),
             "image_src": And(str),
             "allergen_list": And(str),
+            "nutriments_100g": And(dict),
         }])
         # Dictionary like dictionary made with variable_from_json function
         with open("variables_bonbons.json", "r") as read_file:
@@ -143,6 +144,7 @@ class TestsFindSubstitute:
             "nutri_score_grad": And(str),
             "food_url": And(str),
             "image_src": And(str),
+            "nutriments_100g": And(dict),
         })
         self.id_food_from_search_choose = 2020
 

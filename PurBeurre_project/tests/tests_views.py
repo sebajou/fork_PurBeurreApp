@@ -17,6 +17,7 @@ class TestRoutesGeneral:
 
     def setup_method(self):
         self.search_food_request = {'items': 'beurre de cacahuète'}
+        self.food_page_request = 2020
 
     def test_index(self):
         response = c.get('/')
@@ -36,6 +37,11 @@ class TestRoutesGeneral:
         response = c.post('/database_handler_app/search_results/', search_food_req)
         assert response.status_code == 200
 
+    @pytest.mark.django_db
+    def test_food_page(self):
+        food_page_request = self.food_page_request
+        response = c.post('/database_handler_app/food_page/', food_page_request)
+        assert response.status_code == 200
 
 class TestRoutesUsers:
     """Test routes for users session"""

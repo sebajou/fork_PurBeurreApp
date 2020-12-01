@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load replace_underscore_space %}
 {% block headband %}
 <div class="container-fluid">
     <div class="row bg-dark">
@@ -53,7 +54,7 @@
                         <tr><th>Repères nutritionnels pour 100g</th></tr>
                     {% for key, value in dict_nutriments_100g.items %}
                         <tr>
-                            <th>{{ key }}</th><th>{{ value }}</th>
+                            <th>{{ key|cut:"_100g"|replace_underscore_space}}</th><th>{{ value }}</th>
                         </tr>
                     {% endfor %}
                 </table>
