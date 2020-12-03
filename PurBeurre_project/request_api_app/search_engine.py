@@ -283,11 +283,6 @@ class FindSubstitute:
         category_from_id = FoodList.objects.filter(id=id_food_from_search_choose).values()
         given_categories_name = category_from_id[0]['category']
         print('given_categories_name => ', given_categories_name)
-        # Request API with category name
-        # Database populate update for this key word category
-        # pop = PopDBFromJsonWithCategories()
-        # pop.pop_db_all_foo(given_categories_name)
-
         # Find better nutritional score food and associated id from database in this category
         top_scores = (FoodList.objects
                       .order_by('nutri_score_grad')

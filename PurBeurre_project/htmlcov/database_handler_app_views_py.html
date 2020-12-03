@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for database_handler_app/views.py: 37%</title>
+    <title>Coverage for database_handler_app/views.py: 47%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.hotkeys.js"></script>
@@ -17,13 +17,13 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>database_handler_app/views.py</b> :
-            <span class="pc_cov">37%</span>
+            <span class="pc_cov">47%</span>
         </h1>
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
         <h2 class="stats">
-            73 statements &nbsp;
-            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">27 run</button>
-            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">46 missing</button>
+            75 statements &nbsp;
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">35 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">40 missing</button>
             <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
         </h2>
     </div>
@@ -144,29 +144,29 @@
     <p id="t91" class="pln"><span class="n"><a href="#t91">91</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t92" class="pln"><span class="n"><a href="#t92">92</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t93" class="run"><span class="n"><a href="#t93">93</a></span><span class="t"><span class="key">def</span> <span class="nam">food_page</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t94" class="mis show_mis"><span class="n"><a href="#t94">94</a></span><span class="t">    <span class="key">if</span> <span class="nam">request</span><span class="op">.</span><span class="nam">method</span> <span class="op">==</span> <span class="str">'POST'</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t95" class="mis show_mis"><span class="n"><a href="#t95">95</a></span><span class="t">        <span class="nam">id_food</span> <span class="op">=</span> <span class="nam">request</span><span class="op">.</span><span class="nam">POST</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'id_food'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t96" class="mis show_mis"><span class="n"><a href="#t96">96</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"id_food => "</span><span class="op">,</span> <span class="nam">id_food</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t97" class="mis show_mis"><span class="n"><a href="#t97">97</a></span><span class="t">        <span class="key">if</span> <span class="nam">FoodList</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">id</span><span class="op">=</span><span class="nam">id_food</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t98" class="mis show_mis"><span class="n"><a href="#t98">98</a></span><span class="t">            <span class="nam">qs_dict_food</span> <span class="op">=</span> <span class="nam">FoodList</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">id</span><span class="op">=</span><span class="nam">id_food</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t99" class="mis show_mis"><span class="n"><a href="#t99">99</a></span><span class="t">            <span class="nam">dict_food</span> <span class="op">=</span> <span class="nam">qs_dict_food</span><span class="op">.</span><span class="nam">values</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t100" class="mis show_mis"><span class="n"><a href="#t100">100</a></span><span class="t">            <span class="key">for</span> <span class="nam">ele</span> <span class="key">in</span> <span class="nam">dict_food</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t101" class="mis show_mis"><span class="n"><a href="#t101">101</a></span><span class="t">                <span class="nam">str_nutriments_100g</span> <span class="op">=</span> <span class="nam">ele</span><span class="op">[</span><span class="str">'nutriments_100g'</span><span class="op">]</span><span class="op">.</span><span class="nam">replace</span><span class="op">(</span><span class="str">"\'"</span><span class="op">,</span> <span class="str">"\""</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t102" class="mis show_mis"><span class="n"><a href="#t102">102</a></span><span class="t">            <span class="nam">dict_nutriments_100g</span> <span class="op">=</span> <span class="nam">json</span><span class="op">.</span><span class="nam">loads</span><span class="op">(</span><span class="nam">str_nutriments_100g</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t103" class="mis show_mis"><span class="n"><a href="#t103">103</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="str">"Nous avons une page pour cette aliments. "</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t104" class="pln"><span class="n"><a href="#t104">104</a></span><span class="t">        <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t105" class="mis show_mis"><span class="n"><a href="#t105">105</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="str">"Nous n'avons pas de page pour cette aliments. "</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t106" class="pln"><span class="n"><a href="#t106">106</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t107" class="mis show_mis"><span class="n"><a href="#t107">107</a></span><span class="t">        <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'database_handler_app/food_page.html'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t108" class="pln"><span class="n"><a href="#t108">108</a></span><span class="t">                      <span class="op">{</span><span class="str">'dict_food'</span><span class="op">:</span> <span class="nam">dict_food</span><span class="op">,</span> <span class="str">'dict_nutriments_100g'</span><span class="op">:</span> <span class="nam">dict_nutriments_100g</span><span class="op">,</span> <span class="str">'message'</span><span class="op">:</span> <span class="nam">message</span><span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t109" class="pln"><span class="n"><a href="#t109">109</a></span><span class="t">        <span class="com"># return render(request, 'database_handler_app/food_page.html',</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t110" class="pln"><span class="n"><a href="#t110">110</a></span><span class="t">        <span class="com">#               {'dict_food': dict_food, 'message': message})</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t94" class="run"><span class="n"><a href="#t94">94</a></span><span class="t">    <span class="key">if</span> <span class="nam">request</span><span class="op">.</span><span class="nam">method</span> <span class="op">==</span> <span class="str">'POST'</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t95" class="run"><span class="n"><a href="#t95">95</a></span><span class="t">        <span class="nam">id_food</span> <span class="op">=</span> <span class="nam">request</span><span class="op">.</span><span class="nam">POST</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'id_food'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t96" class="run"><span class="n"><a href="#t96">96</a></span><span class="t">        <span class="nam">print</span><span class="op">(</span><span class="str">"id_food => "</span><span class="op">,</span> <span class="nam">id_food</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t97" class="run"><span class="n"><a href="#t97">97</a></span><span class="t">        <span class="nam">dict_food</span> <span class="op">=</span> <span class="op">{</span><span class="op">}</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t98" class="run"><span class="n"><a href="#t98">98</a></span><span class="t">        <span class="nam">dict_nutriments_100g</span> <span class="op">=</span> <span class="op">{</span><span class="op">}</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t99" class="run"><span class="n"><a href="#t99">99</a></span><span class="t">        <span class="key">if</span> <span class="nam">FoodList</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">id</span><span class="op">=</span><span class="nam">id_food</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t100" class="mis show_mis"><span class="n"><a href="#t100">100</a></span><span class="t">            <span class="nam">qs_dict_food</span> <span class="op">=</span> <span class="nam">FoodList</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">filter</span><span class="op">(</span><span class="nam">id</span><span class="op">=</span><span class="nam">id_food</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t101" class="mis show_mis"><span class="n"><a href="#t101">101</a></span><span class="t">            <span class="nam">dict_food</span> <span class="op">=</span> <span class="nam">qs_dict_food</span><span class="op">.</span><span class="nam">values</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t102" class="mis show_mis"><span class="n"><a href="#t102">102</a></span><span class="t">            <span class="key">for</span> <span class="nam">ele</span> <span class="key">in</span> <span class="nam">dict_food</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t103" class="mis show_mis"><span class="n"><a href="#t103">103</a></span><span class="t">                <span class="nam">str_nutriments_100g</span> <span class="op">=</span> <span class="nam">ele</span><span class="op">[</span><span class="str">'nutriments_100g'</span><span class="op">]</span><span class="op">.</span><span class="nam">replace</span><span class="op">(</span><span class="str">"\'"</span><span class="op">,</span> <span class="str">"\""</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t104" class="mis show_mis"><span class="n"><a href="#t104">104</a></span><span class="t">            <span class="nam">dict_nutriments_100g</span> <span class="op">=</span> <span class="nam">json</span><span class="op">.</span><span class="nam">loads</span><span class="op">(</span><span class="nam">str_nutriments_100g</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t105" class="mis show_mis"><span class="n"><a href="#t105">105</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="str">"Nous avons une page pour cette aliments. "</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t106" class="pln"><span class="n"><a href="#t106">106</a></span><span class="t">        <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t107" class="run"><span class="n"><a href="#t107">107</a></span><span class="t">            <span class="nam">message</span> <span class="op">=</span> <span class="str">"Nous n'avons pas de page pour cette aliments. "</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t108" class="pln"><span class="n"><a href="#t108">108</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p id="t109" class="run"><span class="n"><a href="#t109">109</a></span><span class="t">        <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'database_handler_app/food_page.html'</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t110" class="pln"><span class="n"><a href="#t110">110</a></span><span class="t">                      <span class="op">{</span><span class="str">'dict_food'</span><span class="op">:</span> <span class="nam">dict_food</span><span class="op">,</span> <span class="str">'dict_nutriments_100g'</span><span class="op">:</span> <span class="nam">dict_nutriments_100g</span><span class="op">,</span> <span class="str">'message'</span><span class="op">:</span> <span class="nam">message</span><span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
 </div>
 <div id="footer">
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.3</a>,
-            created at 2020-11-30 15:41 +0100
+            created at 2020-12-03 01:41 +0100
         </p>
     </div>
 </div>

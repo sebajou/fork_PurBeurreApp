@@ -94,6 +94,8 @@ def food_page(request):
     if request.method == 'POST':
         id_food = request.POST.get('id_food')
         print("id_food => ", id_food)
+        dict_food = {}
+        dict_nutriments_100g = {}
         if FoodList.objects.filter(id=id_food):
             qs_dict_food = FoodList.objects.filter(id=id_food)
             dict_food = qs_dict_food.values()
@@ -106,5 +108,3 @@ def food_page(request):
 
         return render(request, 'database_handler_app/food_page.html',
                       {'dict_food': dict_food, 'dict_nutriments_100g': dict_nutriments_100g, 'message': message})
-        # return render(request, 'database_handler_app/food_page.html',
-        #               {'dict_food': dict_food, 'message': message})

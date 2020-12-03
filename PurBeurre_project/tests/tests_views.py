@@ -17,7 +17,8 @@ class TestRoutesGeneral:
 
     def setup_method(self):
         self.search_food_request = {'items': 'beurre de cacahuète'}
-        self.food_page_request = 2020
+        self.user_to_login = {'username': 'LeGrandMechantLoup', 'password': '1AQWXSZ2'}
+        self.food_page_request = {'items': 662}
 
     def test_index(self):
         response = c.get('/')
@@ -42,6 +43,24 @@ class TestRoutesGeneral:
         food_page_request = self.food_page_request
         response = c.post('/database_handler_app/food_page/', food_page_request)
         assert response.status_code == 200
+
+    @pytest.mark.django_db
+    def test_my_food(self, monkeypatch):
+
+        # Mock user
+        def mock_user_legrandmechantloup(request):
+            request.user.is_authenticated = True
+            return request.user.is_authenticated
+
+        monkeypatch.setattr(request.user.is_authenticated, "get", mock_user_legrandmechantloup)
+
+        # Log to an account to acces favorites
+        # user_data_to_login = self.user_to_login
+        # response_log = c.post('/accounts/login/', user_data_to_login, follow=True)
+        response = c.get('/database_handler_app/my_food/')
+        # assert response_log.status_code == 200
+        assert response.status_code == 200
+
 
 class TestRoutesUsers:
     """Test routes for users session"""

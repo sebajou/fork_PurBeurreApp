@@ -29,7 +29,7 @@ class TestsPopDBFromJsonWithCategories:
             "nutriments_100g": And(dict),
         }])
         # Dictionary like dictionary made with variable_from_json function
-        with open("variables_bonbons.json", "r") as read_file:
+        with open("variables_bonbons2.json", "r") as read_file:
             self.dictionary_from_json_bonbon = read_file.read()
             self.dictionary_from_json_bonbon = ast.literal_eval(self.dictionary_from_json_bonbon)
 
@@ -144,9 +144,9 @@ class TestsFindSubstitute:
             "nutri_score_grad": And(str),
             "food_url": And(str),
             "image_src": And(str),
-            "nutriments_100g": And(dict),
+            "nutriments_100g": And(str),
         })
-        self.id_food_from_search_choose = 2020
+        self.id_food_from_search_choose = 662
 
     @pytest.mark.django_db(transaction=True)
     def test_database_search_and_find(self, django_db_setup):
