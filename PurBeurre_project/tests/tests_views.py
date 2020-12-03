@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.test import Client
 from django.contrib.sessions.models import Session
 from django import urls
@@ -49,16 +50,13 @@ class TestRoutesGeneral:
 
         # Mock user
         def mock_user_legrandmechantloup(request):
-            request.user.is_authenticated = True
-            return request.user.is_authenticated
+            request.user = {'is_authenticated': True, 'username': 'LeGrandMechantLoup', 'password': '1AQWXSZ2', 'id':1}
+            return request.user
 
-        monkeypatch.setattr(request.user.is_authenticated, "get", mock_user_legrandmechantloup)
+        monkeypatch.setattr('.database_handler_app.views', "my_food", mock_user_legrandmechantloup)
 
-        # Log to an account to acces favorites
-        # user_data_to_login = self.user_to_login
-        # response_log = c.post('/accounts/login/', user_data_to_login, follow=True)
+
         response = c.get('/database_handler_app/my_food/')
-        # assert response_log.status_code == 200
         assert response.status_code == 200
 
 
