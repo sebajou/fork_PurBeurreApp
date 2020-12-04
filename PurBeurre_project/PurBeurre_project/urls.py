@@ -45,6 +45,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('database_handler_app/is_favorite/', database_handler_views.is_favorite, name='is_favorite'),
     path('database_handler_app/food_page/', database_handler_views.food_page, name='food_page'),
+
+    path('request_api_app/', request_api_app.index),
 ]
 
 # Run initial script

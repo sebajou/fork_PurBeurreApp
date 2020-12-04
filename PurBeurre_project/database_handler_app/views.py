@@ -67,6 +67,7 @@ def my_foods(request):
     if request.user.is_authenticated:
         # Obtain all favorites food record by a user from many to many relationship
         list_object_favorites_of_user = Favorites.objects.filter(favorites_list__id=request.user.id)
+        print("username => ", request.user.username)
         # Obtain id of this favorites food
         list_favorites_id_of_user = []
         for object_favorites_of_user in list_object_favorites_of_user:
@@ -87,6 +88,7 @@ def my_foods(request):
                       {'list_dict_favorites_of_user': list_dict_favorites_of_user, 'message': message})
 
     else:
+        print('not log')
         return render(request, 'registration/login.html')
 
 

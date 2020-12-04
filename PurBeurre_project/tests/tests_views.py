@@ -12,6 +12,25 @@ import time
 
 c = Client()
 
+# User mock
+
+
+@pytest.fixture
+def test_password():
+    return 'strong-test-pass'
+
+
+@pytest.fixture
+def create_user(db, django_user_model, test_password):
+    def make_user(**kwargs):
+        kwargs['password'] = "1AQWXSZ2"
+        if 'username' not in kwargs:
+            kwargs['username'] = "LeGrandMechantLoup"
+        if 'id' not in kwargs:
+            kwargs['id'] = 1
+        return django_user_model.objects.create_user(**kwargs)
+    return make_user
+
 
 class TestRoutesGeneral:
     """Test index and homes pages routes """
@@ -19,10 +38,15 @@ class TestRoutesGeneral:
     def setup_method(self):
         self.search_food_request = {'items': 'beurre de cacahuète'}
         self.user_to_login = {'username': 'LeGrandMechantLoup', 'password': '1AQWXSZ2'}
-        self.food_page_request = {'items': 662}
+        self.food_id = {'items': 662}
+        self.favorite_id = {'favorite_substitute_id': 662}
 
     def test_index(self):
         response = c.get('/')
+        assert response.status_code == 200
+
+    def test_request_api_app(self):
+        response = c.get('/request_api_app/')
         assert response.status_code == 200
 
     def test_legal_mention(self):
@@ -41,23 +65,28 @@ class TestRoutesGeneral:
 
     @pytest.mark.django_db
     def test_food_page(self):
-        food_page_request = self.food_page_request
+        food_page_request = self.food_id
         response = c.post('/database_handler_app/food_page/', food_page_request)
         assert response.status_code == 200
 
     @pytest.mark.django_db
-    def test_my_food(self, monkeypatch):
-
-        # Mock user
-        def mock_user_legrandmechantloup(request):
-            request.user = {'is_authenticated': True, 'username': 'LeGrandMechantLoup', 'password': '1AQWXSZ2', 'id':1}
-            return request.user
-
-        monkeypatch.setattr('.database_handler_app.views', "my_food", mock_user_legrandmechantloup)
-
-
-        response = c.get('/database_handler_app/my_food/')
+    def test_my_foods(self, create_user):
+        user = create_user()
+        c.login(
+            username=user.username, password="1AQWXSZ2"
+        )
+        response = c.get('/database_handler_app/my_foods/')
         assert response.status_code == 200
+
+    @pytest.mark.django_db
+    def test_is_favorite(self, client, create_user):
+        user = create_user()
+        client.login(
+            username=user.username, password="1AQWXSZ2"
+        )
+        id_food = self.favorite_id
+        response = client.post('/database_handler_app/is_favorite/', id_food)
+        assert response.status_code == 302
 
 
 class TestRoutesUsers:
