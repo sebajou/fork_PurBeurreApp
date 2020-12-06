@@ -57,9 +57,7 @@ def is_favorite(request):
 
 
 def legal_mention(request):
-    message = "Hello World !"
-    """template = loader.get_template('database_handler_app/search_results.html')
-    return HttpResponse(template.render(request=request))"""
+    message = "NOTICE LÉGALE - CONDITIONS D'UTILISATION"
     return render(request, 'database_handler_app/legal_mention.html', {'message': message})
 
 
