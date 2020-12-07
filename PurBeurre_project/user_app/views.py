@@ -2,12 +2,19 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from database_handler_app.models import MyUsers, Allergen, Diet
 from user_app.sign_up_form import SignUpForm
+# from django.views.generic import DetailView
+#
+#
+# class UserImageDisplay(DetailView):
+#     model = MyUsers
+#     template_name = 'profile.html'
+#     context_object_name = 'user'
 
 
 def user_form(request):
     if request.method == 'POST':
         # Form for sign up from class in sign_up_form.py module
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -25,7 +32,6 @@ def user_form(request):
             for id_allergen in choose_allergen:
                 qs_allergen = Allergen.objects.get(id=id_allergen)
                 qs_username.alergy.add(qs_allergen)
-
             return redirect('index')
     else:
         form = SignUpForm()

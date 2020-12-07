@@ -1,4 +1,21 @@
-{% extends "base_user.html" %}
+{% extends "base_generic.html" %}
+{% load static %}
+{% load avatar_tags %}
+
+{% block headband %}
+<div class="container-fluid">
+    <div class="row bg-dark">
+        <div class="col-12">
+                <div class="headband mt-5">
+                  <img class="card-img-top mt-5 mb-0" src="{{ user.image_profile.url }}" alt=""/>
+                    <div class="headtext">
+                            {{ user.username }}
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
     <div class="container">

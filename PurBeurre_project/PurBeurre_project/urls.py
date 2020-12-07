@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from database_handler_app import views as database_handler_views
@@ -41,6 +42,7 @@ urlpatterns = [
     path('accounts/profile/', user_views.profile, name='profile'),
 
     path('user_app/', include('user_app.urls')),
+    path('avatar/', include('avatar.urls')),
     path('database_handler_app/', include('database_handler_app.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('database_handler_app/is_favorite/', database_handler_views.is_favorite, name='is_favorite'),
@@ -48,6 +50,9 @@ urlpatterns = [
 
     path('request_api_app/', request_api_app.index),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Run initial script
 # fill_up_diet()

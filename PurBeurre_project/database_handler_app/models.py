@@ -27,10 +27,12 @@ class FoodList(models.Model):
     allergen_list = models.ManyToManyField(Allergen)
 
 
-class MyUsers(AbstractUser):
+class MyUsers(AbstractUser, models.Model):
     diet_type = models.ManyToManyField(Diet)
     search_food = models.ManyToManyField(FoodList)
     alergy = models.ManyToManyField(Allergen)
+    image_profile = models .ImageField(upload_to='profile_image/', null=True, blank=True,
+                                       default='elephant.jpeg')
 
 
 class Favorites(models.Model):
