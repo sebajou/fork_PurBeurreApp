@@ -1,6 +1,5 @@
 {% extends "base_generic.html" %}
 {% load static %}
-{% load avatar_tags %}
 
 {% block headband %}
 <div class="container-fluid">
@@ -19,14 +18,15 @@
 
 {% block content %}
     <div class="container">
+        <br>
         <h1>Page de profile, Vous êtes connecté en tant que  {{ user }}.</h1>
         <div  id="right-style">
-            <p><strong>Username:</strong> {{ user.username }}</p>
-            <p><strong>First name:</strong> {{ user.first_name }}</p>
-            <p><strong>Last name:</strong> {{ user.last_name }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>User diet:</strong> {% for diet in diet_type %} {{ diet }} {% endfor %}</p>
-            <p><strong>User alergy:</strong></p>
+            <p><strong>Nom d'utilisateur :</strong> {{ user.username }}</p>
+            <p><strong>Prénom :</strong> {{ user.first_name }}</p>
+            <p><strong>Nom de famille :</strong> {{ user.last_name }}</p>
+            <p><strong>Courriel (email) :</strong> {{ user.email }}</p>
+            <p><strong>Regime alimentaire :</strong> {% for diet in diet_type %} {{ diet }} {% endfor %}</p>
+            <p><strong>Alergies:</strong></p>
             <ul>
             {% for alergy_type in alergy %}
                 <li>{{ alergy_type }}</li>

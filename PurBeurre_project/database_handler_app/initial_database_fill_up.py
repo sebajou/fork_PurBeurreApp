@@ -1,4 +1,4 @@
-from database_handler_app.models import Diet
+from database_handler_app.models import Diet, Allergen
 
 
 def fill_up_diet():
@@ -9,4 +9,14 @@ def fill_up_diet():
         else:
             Diet.objects.create(diet_name=diet_type)
             print(diet_type)
+
+
+def fill_up_allergen():
+    allergen_list = ['Pas d\'allergies']
+    for allergen_type in allergen_list:
+        if Allergen.objects.filter(allergen_name=allergen_type):
+            print(allergen_type)
+        else:
+            Allergen.objects.create(allergen_name=allergen_type)
+            print(allergen_type)
 

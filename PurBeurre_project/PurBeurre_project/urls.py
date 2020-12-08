@@ -22,7 +22,7 @@ from request_api_app import views as request_api_app
 from user_app import views as user_views
 from django.views.generic import TemplateView
 from request_api_app.search_engine import pop_db_with_categories
-from database_handler_app.initial_database_fill_up import fill_up_diet
+from database_handler_app.initial_database_fill_up import fill_up_diet, fill_up_allergen
 
 
 urlpatterns = [
@@ -42,7 +42,6 @@ urlpatterns = [
     path('accounts/profile/', user_views.profile, name='profile'),
 
     path('user_app/', include('user_app.urls')),
-    path('avatar/', include('avatar.urls')),
     path('database_handler_app/', include('database_handler_app.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('database_handler_app/is_favorite/', database_handler_views.is_favorite, name='is_favorite'),
@@ -56,7 +55,9 @@ if settings.DEBUG:
 
 # Run initial script
 # fill_up_diet()
+# fill_up_allergen()
 # pop_db_with_categories()
+
 
 
 if settings.DEBUG:
