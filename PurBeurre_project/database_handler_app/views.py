@@ -4,6 +4,13 @@ from django.shortcuts import render, redirect
 from request_api_app.search_engine import FindSubstitute
 from database_handler_app.models import MyUsers, Favorites, FoodList
 import json
+import requests
+
+
+# def index(request):
+#     r = requests.get('http://httpbin.org/status/418')
+#     print(r.text)
+#     return HttpResponse('<pre>' + r.text + '</pre>')
 
 
 def index(request):
