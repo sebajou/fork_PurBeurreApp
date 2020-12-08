@@ -27,7 +27,7 @@ SECRET_KEY = 'puza!=@c^c3=k$yab*kly71*3%=%uu4_c%i-qd9)a8tndvh151'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'stormy-earth-30718.herokuapp.com']
 
 # Application definition
 
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'django_heroku',
 ]
 
 MIDDLEWARE = [
@@ -136,5 +135,5 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # django_heroku.settings(locals())
