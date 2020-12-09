@@ -140,6 +140,7 @@ def pop_db_with_categories(given_categories_name=None):
     else:
         for categories_name in categories_list:
             pop.pop_db_all_foo(categories_name)
+            print('categories_name done => ', categories_name)
 
 
 class Parser:
