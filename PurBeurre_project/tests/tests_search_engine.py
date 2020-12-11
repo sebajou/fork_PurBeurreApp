@@ -127,7 +127,7 @@ class TestsFindSubstitute:
     def setup_method(self):
         self.key_sentence1 = "Bonbon à la fraises"
         self.key_sentence2 = ""
-        self.key_sentence3 = "qsdazg!eraeeg dbz 35T@#31!5zb sN?dg"
+        self.key_sentence3 = "goudoubouz à la brimiritif gaudoisiate"
         self.category = "bonbon"
         # Schema of dictionay of substitute values from database
         self.schema = Schema({
@@ -172,8 +172,8 @@ class TestsFindSubstitute:
         find = FindSubstitute()
         list_id_food_from_search = find.database_search_and_find(key_word_for_test)
         for element_id in list_id_food_from_search:
-            # assert element_id == '-µ-absurd-µ-'
-            assert element_id == 'erroreer'
+            assert element_id == '-µ-absurd-µ-'
+            # assert element_id == 'erroreer'
 
     @pytest.mark.django_db()
     def test_healthy_substitute(self):

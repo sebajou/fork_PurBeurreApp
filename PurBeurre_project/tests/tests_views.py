@@ -67,6 +67,7 @@ class TestRoutesGeneral:
         food_page_request = self.food_id
         response = c.post('/database_handler_app/food_page/', food_page_request)
         assert response.status_code == 200
+        # assert b'Nous avons une page pour cette aliments. ' in response.content
 
     @pytest.mark.django_db
     def test_my_foods(self, create_user):

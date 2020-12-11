@@ -2,11 +2,13 @@ asgiref==3.2.10
 attrs==20.2.0
 certifi==2020.6.20
 chardet==3.0.4
+cloudinary==1.23.0
 contextlib2==0.6.0.post1
 coverage==5.3
 dj-database-url==0.5.0
 Django==3.1.1
 django-appconf==1.0.4
+django-cloudinary-storage==0.3.0
 django-configurations==2.2
 django-debug-toolbar==3.1.1
 django-dynamic-fixture==3.1.0
