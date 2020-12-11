@@ -2,16 +2,10 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from database_handler_app.models import MyUsers, Allergen, Diet
 from user_app.sign_up_form import SignUpForm
-# from django.views.generic import DetailView
-#
-#
-# class UserImageDisplay(DetailView):
-#     model = MyUsers
-#     template_name = 'profile.html'
-#     context_object_name = 'user'
 
 
 def user_form(request):
+    """Sign up form. """
     if request.method == 'POST':
         # Form for sign up from class in sign_up_form.py module
         form = SignUpForm(request.POST, request.FILES)
@@ -19,7 +13,7 @@ def user_form(request):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            # authentification and login
+            # authentication and login
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             # special treatment of data alergy and diet which from many to many field
@@ -39,7 +33,7 @@ def user_form(request):
 
 
 def profile(request):
-
+    """Display profile page. """
     if request.user.is_authenticated:
         alergy = Allergen.objects.filter(myusers__id=request.user.id)
         diet_type = Diet.objects.filter(myusers__id=request.user.id)
@@ -48,5 +42,3 @@ def profile(request):
 
     else:
         return render(request, 'registration/login.html')
-
-

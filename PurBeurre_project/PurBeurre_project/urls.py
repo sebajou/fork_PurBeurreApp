@@ -37,8 +37,10 @@ urlpatterns = [
     path('database_handler_app/legal_mention/', database_handler_views.legal_mention, name='legal_mention'),
     path('database_handler_app/my_foods/', database_handler_views.my_foods, name='my_foods'),
     path('admin/', admin.site.urls),
-    path('database_handler_app/accounts/login/', TemplateView.as_view(template_name='registration/login.html'), name='login'),
-    path('database_handler_app/accounts/logout/', TemplateView.as_view(template_name='registration/logged_out.html'), name='logout'),
+    path('database_handler_app/accounts/login/',
+         TemplateView.as_view(template_name='registration/login.html'), name='login'),
+    path('database_handler_app/accounts/logout/',
+         TemplateView.as_view(template_name='registration/logged_out.html'), name='logout'),
     path('accounts/profile/', user_views.profile, name='profile'),
 
     path('user_app/', include('user_app.urls')),
@@ -57,7 +59,6 @@ if settings.DEBUG:
 # fill_up_diet()
 # fill_up_allergen()
 # pop_db_with_categories()
-
 
 
 if settings.DEBUG:

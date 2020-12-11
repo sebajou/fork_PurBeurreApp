@@ -13,7 +13,7 @@ class PopDBFromJsonWithCategories:
     A second function load json useful data in dictionary.
     A third function (pop_db) populate the database with the json file.
     Another function (pop_db_with_categories) call the two precedent function to populate database
-    with foods from 30 different categories of foods.
+    with foods from up to 30 different categories of foods.
     """
 
     @staticmethod
@@ -96,8 +96,6 @@ class PopDBFromJsonWithCategories:
                     allergens = []
                     allergens_list = []
                     for allergens_raw in data_allergens.split(','):
-                        # # Choose only english name allergens
-                        # if allergens_raw[:3] == 'en:':
                         # List all allergens in each product
                         allergens.append(allergens_raw)
                         # List of allergens without double
@@ -112,12 +110,9 @@ class PopDBFromJsonWithCategories:
                             aller = Allergen(allergen_name=allergen)
                             aller.save()
                             food_list.allergen_list.add(aller)
-                # # Add the content of selected_nutriments_100g dictionary to the database
-                # food_list = FoodList(nutriments_100g=selected_nutriments_100g)
-                # food_list.save()
 
     def pop_db_all_foo(self, name_category):
-        """Use json_from_api and pop_db for 30 different categories of foods. """
+        """Use json_from_api and pop_db for up to 30 different categories of foods. """
         # Fill with name_category from outside function
         if name_category:
             data_category_json_var = self.json_from_api(name_category)
@@ -127,6 +122,10 @@ class PopDBFromJsonWithCategories:
 
 
 def pop_db_with_categories(given_categories_name=None):
+    """
+    Contain the list of category and organise the database fill up
+    with method from PopDBFromJsonWithCategories class.
+    """
     categories_list = ['pizza', 'pate a tartiner', 'gateau', 'choucroute', 'bonbon', 'cassoulet', 'compote',
                        'cookies', 'tartiflette', 'bolognaise', 'chips', 'brioche', 'bolognaise', 'biscuit',
                        'croissants', 'pesto', 'couscous', 'confiture', 'biscuit', 'chocolat', 'croissant',
@@ -144,10 +143,10 @@ def pop_db_with_categories(given_categories_name=None):
 
 
 class Parser:
-    """ This class parse message from front input from user and return it to API"""
+    """ This class parse message from front input from user."""
 
     def __init__(self):
-        """Initial attribute for Parser"""
+        """Initial attribute for Parser. """
         with open('fr_stop_word_data', 'rb') as fr_stop_word_file:
             my_unpickler = pickle.Unpickler(fr_stop_word_file)
             self.fr_stop_word = my_unpickler.load()
@@ -158,7 +157,7 @@ class Parser:
 
     @staticmethod
     def format_message(message_from_front):
-        """Format message from front user input"""
+        """Format message from front user input. """
         # Parse input message
         try:
             message_from_front = message_from_front.lower()
@@ -173,7 +172,7 @@ class Parser:
             return ""
 
     def format_verb(self, message_from_front):
-        """Format message from front user input by removing verb"""
+        """Format message from front user input by removing verb. """
         list_verb_pattern = []
         for pattern_beginning in self.list_pattern_beginning:
             for pattern_end in self.list_pattern_end:
@@ -187,7 +186,8 @@ class Parser:
 
     def parse_message_from_front(self, message_from_front):
         """
-        Parse the message from front user input, return parse message for API by using method from Parser
+        Parse the message from front user input,
+        return parse message for API by using method from Parser class.
         """
         # Use method from Parser class
         list_message_from_front = self.format_message(message_from_front)
@@ -201,51 +201,36 @@ class Parser:
 
 class FindSubstitute:
     """
-    This class contain functions which allow User to find Food in database,
+    This class contain functions which allow User to search Food in database,
     then find a healthy substitute from Open Food Facts API.
     """
 
     @staticmethod
     def database_search_and_find(key_sentence):
         """This function allows User to find foods list in database from key word enter in search field"""
-        # Parse key sentence to create key words => split sentence, remove useless word with stop word
-        # if not key_sentence:
-        #     list_dict_with_score_foodlist = [{'id': 0,
-        #      'food_name': 'pas d\'aliment,
-        #      'category': 'pas de categorie',
-        #      'image_src': '',
-        #      'nutri_score_grad': 'a',
-        #      'food_url': dict_in_foodlist['food_url'],
-        #      'score': score}]
-        #     return list_dict_with_score_foodlist[:1]
+        # Use a parser.
         parser = Parser()
         list_key_words = parser.parse_message_from_front(message_from_front=key_sentence)
         if not list_key_words:
             return ['-µ-empty-µ-']
         print('list_key_words => ', list_key_words)
-        # Collect in dictionnary id, food name and category
+        # Collect in dictionary id, food name and category.
         list_dict_to_compare_foodlist = list(FoodList.objects.values('id', 'food_name', 'category',
                                                                      'image_src', 'nutri_score_grad',
                                                                      'food_url'))
-        # print('QuerySet list_dict_to_compare_foodlist => ', FoodList.objects.values('id', 'food_name', 'category'))
-        # print('list_dict_to_compare_foodlist => ', list_dict_to_compare_foodlist)
         # Process on key words data => compare key words with category name and food_name in database
         # Give a score of matching between key words and each food id
         list_dict_with_score_foodlist = []
         for dict_in_foodlist in list_dict_to_compare_foodlist:
             score = 0
-            # print('dict_in_foodlist => ', dict_in_foodlist)
             for element_key_words in list_key_words:
                 list_food_name = [x.lower() for x in dict_in_foodlist['food_name'].split(' ')]
                 if element_key_words.lower() in list_food_name:
                     score += 1
-                    # print(score)
                 list_category = [x.lower() for x in dict_in_foodlist['category'].split(' ')]
                 if element_key_words.lower() in list_category:
                     score += 2
-                    # print(score)
                 else:
-                    # print('pass')
                     pass
             dict_in_foodlist_with_score = {'id': dict_in_foodlist['id'],
                                            'food_name': dict_in_foodlist['food_name'],
@@ -259,8 +244,6 @@ class FindSubstitute:
         # Display ordered list of food from score matching
         # or if not results display "Nous n'avons pas trouvé... "
         list_dict_with_score_foodlist = sorted(list_dict_with_score_foodlist, key=lambda i: i['score'], reverse=True)
-        # print('list_dict_with_score_foodlist => ', list_dict_with_score_foodlist)
-        list_id_food_find_with_key_word = list_dict_with_score_foodlist
         list_id = []
         for element_score in list_dict_with_score_foodlist:
             list_id.append(element_score['id'])
@@ -272,10 +255,6 @@ class FindSubstitute:
                 return ['-µ-absurd-µ-']
         # Return the dictionary of the first search matching product
         return list_dict_with_score_foodlist[:1]
-        # Return list of id, ordered with the 10 first the better score
-        # print('list_id => ', list_id)
-        # return list_id[:10]
-        # return list_dict_with_score_foodlist
 
     @staticmethod
     def healthy_substitute(id_food_from_search_choose):
@@ -297,6 +276,4 @@ class FindSubstitute:
                                                   .filter(category=given_categories_name)
                                                   .values()[:6])
         print('dic_healthy_substitute_from_categories => ', dic_healthy_substitute_from_categories)
-        # Build dictionary of food characteristic with id
-        # dic_healthy_substitute_from_categories = dic_healthy_substitute_from_categories[0]
         return dic_healthy_substitute_from_categories

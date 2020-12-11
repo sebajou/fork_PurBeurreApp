@@ -3,7 +3,7 @@ from request_api_app.search_engine import PopDBFromJsonWithCategories
 from database_handler_app.models import FoodList, Allergen
 
 
-@pytest.mark.smoketest
+@pytest.mark.api_request
 def test_api_json_format():
     """
     Verifies that the Open Fact Foods is returning json data with an expected structure
@@ -21,7 +21,7 @@ def test_api_json_format():
         assert 'allergens' in product_bonbons_json
 
 
-@pytest.mark.smoketest
+@pytest.mark.api_request
 @pytest.mark.django_db(transaction=True)
 def tests_pop_db_all_foo():
     """Use json_from_api and pop_db for 30 different categories of foods. """
@@ -42,9 +42,4 @@ def tests_pop_db_all_foo():
         assert str(product_from_model["nutri_score_grad"])
         assert str(product_from_model["food_url"])
         assert str(product_from_model["image_src"])
-        # Verify the many to many relation between FoodList and Allergen)
-        # allergen_from_model = Allergen.objects.filter(foodlist__id=product_from_model["id"]).values()
-        # for allergen_in_product_model in allergen_from_model:
-        #     assert str(allergen_in_product_model['allergen_name'])
-        # Verify that food_list item contain an id
         assert int(product_from_model["id"])

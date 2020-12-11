@@ -2,7 +2,7 @@ import pytest
 from request_api_app.search_engine import PopDBFromJsonWithCategories, FindSubstitute, Parser
 from request_api_app.search_engine import pop_db_with_categories
 import json
-from schema import Schema, And, Use, Optional
+from schema import Schema, And
 from database_handler_app.models import FoodList, Allergen
 import ast
 
@@ -15,8 +15,6 @@ class TestsPopDBFromJsonWithCategories:
         # Open the bonbons_json_data
         with open("bonbons.json", "r") as read_file:
             self.json_for_test = json.load(read_file)
-            # string_json_for_test = read_file.read()
-            # self.json_for_test = json.loads(string_json_for_test)
         # Build json schema for test variable from json
         self.schema = Schema([{
             "food_name": And(str),
@@ -28,6 +26,7 @@ class TestsPopDBFromJsonWithCategories:
             "allergen_list": And(str),
             "nutriments_100g": And(dict),
         }])
+
         # Dictionary like dictionary made with variable_from_json function
         with open("variables_bonbons2.json", "r") as read_file:
             self.dictionary_from_json_bonbon = read_file.read()
@@ -63,15 +62,10 @@ class TestsPopDBFromJsonWithCategories:
             assert str(product_from_model["nutri_score_grad"])
             assert str(product_from_model["food_url"])
             assert str(product_from_model["image_src"])
-            # Verify the many to many relation between FoodList and Allergen)
-            # allergen_from_model = Allergen.objects.filter(foodlist__id=product_from_model["id"]).values()
-            # for allergen_in_product_model in allergen_from_model:
-            #     assert str(allergen_in_product_model['allergen_name'])
-            # Verify that food_list item contain an id
             assert int(product_from_model["id"])
 
 
-@pytest.mark.smoketest
+@pytest.mark.api_request
 @pytest.mark.django_db(transaction=True)
 def test_pop_db_with_categories():
     given_categories_name = 'bonbon'
@@ -83,7 +77,7 @@ def test_pop_db_with_categories():
     assert given_categories_name in category_list_model
 
 
-@pytest.mark.smoketest
+@pytest.mark.api_request
 @pytest.mark.django_db(transaction=True)
 def test_pop_db_with_categories_without_argument():
     pop_db_with_categories()

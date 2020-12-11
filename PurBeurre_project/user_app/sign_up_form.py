@@ -4,8 +4,8 @@ from django import forms
 
 
 class SignUpForm(UserCreationForm, forms.Form):
-
-    # Alery from many to many field. Several alergy choice possible.
+    """Form for fill sign up. """
+    # Alery from many to many field. Several allergy choice possible.
     alergy = forms.ModelMultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         queryset=Allergen.objects.all()
@@ -21,5 +21,3 @@ class SignUpForm(UserCreationForm, forms.Form):
         model = MyUsers
         fields = ('username', 'first_name', 'last_name', 'email', 'diet_type',
                   'alergy', 'password1', 'password2', 'image_profile')
-
-

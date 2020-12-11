@@ -1,24 +1,27 @@
-from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render, redirect
 from request_api_app.search_engine import FindSubstitute
 from database_handler_app.models import MyUsers, Favorites, FoodList
 import json
-import requests
-
-
-# def index(request):
-#     r = requests.get('http://httpbin.org/status/418')
-#     print(r.text)
-#     return HttpResponse('<pre>' + r.text + '</pre>')
 
 
 def index(request):
+    """Main page"""
     template = loader.get_template('database_handler_app/index.html')
     return HttpResponse(template.render(request=request))
 
 
 def search_results(request):
+    """
+    Allow the user to obtain search results from text POST.
+    Input: POST text with food name.
+    Process:
+        foods_ids = search_engine.FindSubstitute.database_search_and_find(input)
+        dict_healthy_substitute = search_engine.FindSubstitute.healthy_substitute(foods_ids)
+    Output: sort healthy foods substitute search results from database.
+    Use search_engine module functionalities.
+    """
     if request.method == 'POST':
         # Instanciation of class with method to find substitute
         search = FindSubstitute()
@@ -26,7 +29,9 @@ def search_results(request):
         search_posted = request.POST.get('search')
         # List of id of substitute from Post data with a method
         list_id = search.database_search_and_find(search_posted)
-        # Create message specifique for the type of value enter in search field
+        # Create message specific for the type of value enter in search field
+        message = ""
+        dict_healthy_substitute = {}
         for element_id in list_id:
             if element_id == "-µ-empty-µ-":
                 message = "Vous n'avez rien rentrer dans le champs de recherche."
@@ -43,13 +48,15 @@ def search_results(request):
 
 
 def is_favorite(request):
+    """Allow user to record favorites food in database. Reroute on favorites list page."""
     if request.method == 'POST':
-        # id_favorite_food = form.cleaned_data.get('id_favorite_food')
-        # id_favorite_food = request.POST.get('id_favorite_food', None)
+        # Input from user food button selection.
         id_favorite_food = request.POST.get('favorite_substitute_id')
         print('id_favorite_food => ', id_favorite_food)
+        # Determined the current user.
         current_user = request.user
         print('current_user => ', current_user)
+        # Add User favorite choice in database through many to many relationship.
         qs_user = MyUsers.objects.get(username=current_user)
         print('qs_user => ', qs_user)
         if Favorites.objects.filter(id_food_list=id_favorite_food):
@@ -64,11 +71,13 @@ def is_favorite(request):
 
 
 def legal_mention(request):
+    """Legal mention page. """
     message = "NOTICE LÉGALE - CONDITIONS D'UTILISATION"
     return render(request, 'database_handler_app/legal_mention.html', {'message': message})
 
 
 def my_foods(request):
+    """Route for user's favorites list."""
     if request.user.is_authenticated:
         # Obtain all favorites food record by a user from many to many relationship
         list_object_favorites_of_user = Favorites.objects.filter(favorites_list__id=request.user.id)
@@ -91,18 +100,24 @@ def my_foods(request):
 
         return render(request, 'database_handler_app/my_foods.html',
                       {'list_dict_favorites_of_user': list_dict_favorites_of_user, 'message': message})
-
     else:
         print('not log')
         return render(request, 'registration/login.html')
 
 
 def food_page(request):
+    """
+    Identity food page.
+    From food id post from button display all necessary information about this food.
+    """
     if request.method == 'POST':
+        # Obtain food id
         id_food = request.POST.get('id_food')
         print("id_food => ", id_food)
+        # From food id fill dictionary for all necessary food's information from database.
         dict_food = {}
         dict_nutriments_100g = {}
+        str_nutriments_100g = ""
         if FoodList.objects.filter(id=id_food):
             qs_dict_food = FoodList.objects.filter(id=id_food)
             dict_food = qs_dict_food.values()

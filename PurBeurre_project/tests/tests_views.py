@@ -12,8 +12,6 @@ import time
 
 c = Client()
 
-# User mock
-
 
 @pytest.fixture
 def test_password():
@@ -22,6 +20,7 @@ def test_password():
 
 @pytest.fixture
 def create_user(db, django_user_model, test_password):
+    """User mock. """
     def make_user(**kwargs):
         kwargs['password'] = "1AQWXSZ2"
         if 'username' not in kwargs:
@@ -106,21 +105,12 @@ class TestRoutesUsers:
         user_data_to_post = self.user_to_post
         response = c.post('/user_form/', user_data_to_post)
         assert response.status_code == 200
-        # There should be a user with 'my_username'
-        # user = MyUsers.objects.get(username='LeGrandMechantLoup')
-        # The user's last login time should be set to the current time
-        # assert user.last_login == dt.datetime(2019, 1, 26, 7)
 
     @pytest.mark.django_db
     def test_route_user_login(self):
         user_data_to_login = self.user_to_login
         response = c.post('/accounts/login/', user_data_to_login, follow=True)
         assert response.status_code == 200
-        # The login view should redirect us to profile page
-        # SimpleTestCase().assertRedirects(response, reverse('profile'))
-        # time.sleep(3)
-        # assert response.status_code == 302
-        # assert response.url == urls.reverse('profile')
 
     def test_route_user_profile(self):
         response_profile = c.get('/accounts/profile/')
@@ -130,8 +120,6 @@ class TestRoutesUsers:
     def test_route_logout(self):
         response_profile = c.get('/accounts/logout/')
         assert response_profile.status_code == 200
-        # There should be no more sessions left after logging out
-        # assert not Session.objects.exists()
 
     def test_route_password_reset(self):
         response_profile = c.get('/accounts/password_reset/')
@@ -145,4 +133,3 @@ class TestRoutesUsers:
         # Verify is display a error message when login fail.
         assert b'Votre nom d\'utilisateur et votre mot de passe ne correspondent pas. Veuillez reessayer.' \
                in response.content
-
