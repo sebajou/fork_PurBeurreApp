@@ -147,9 +147,9 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'YOUR_CLOUD_NAME',
-    'API_KEY': 'YOUR_API_KEY',
-    'API_SECRET': 'YOUR_API_SECRET',
+    'CLOUD_NAME': os.getenv('SECRET_CLOUD_NAME', 'Optional default value'),
+    'API_KEY': os.getenv('SECRET_API_KEY', 'Optional default value'),
+    'API_SECRET': os.getenv('SECRET_API_KEY', 'Optional default value'),
 }
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
