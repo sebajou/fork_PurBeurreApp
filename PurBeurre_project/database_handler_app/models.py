@@ -31,7 +31,7 @@ class MyUsers(AbstractUser, models.Model):
     diet_type = models.ManyToManyField(Diet)
     search_food = models.ManyToManyField(FoodList)
     alergy = models.ManyToManyField(Allergen)
-    image_profile = models .ImageField(upload_to='profile_image/', null=True, blank=True,
+    image_profile = models.ImageField(upload_to='profile_image/', null=True, blank=True,
                                        default='elephant.jpeg')
 
 
