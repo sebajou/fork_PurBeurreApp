@@ -92,8 +92,8 @@ def test_pop_db_with_categories_without_argument():
     for product_from_model in dictionary_from_model:
         category_list_model.append(product_from_model["category"])
     category_list_model = list(set(category_list_model))
-    for category_element_model in category_list_model:
-        assert category_element_model in category_list_test
+    for category_element_test in category_list_test:
+        assert category_element_test in category_list_model
 
 
 class TestsParser:
@@ -141,6 +141,7 @@ class TestsFindSubstitute:
             "nutriments_100g": And(str),
         })
         self.id_food_from_search_choose = 662
+        self.id_food_for_substitute = 1550
 
     @pytest.mark.django_db(transaction=True)
     def test_database_search_and_find(self, django_db_setup):
@@ -177,7 +178,7 @@ class TestsFindSubstitute:
 
     @pytest.mark.django_db()
     def test_healthy_substitute(self):
-        id_food = self.id_food_from_search_choose
+        id_food = self.id_food_for_substitute
         dictionary_schema = self.schema
         find = FindSubstitute()
         dic_healthy_substitute_from_categories = find.healthy_substitute(id_food)

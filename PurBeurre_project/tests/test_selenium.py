@@ -17,7 +17,7 @@ from selenium.webdriver.common.by import By
 class AccountTestCase(LiveServerTestCase):
 
     @pytest.mark.selenium_mk
-    def test_create_then_login_user(self):
+    def test_create_then_logout_user(self):
         driver = webdriver.Firefox(
             executable_path="/home/sebastien/Documents/Cours_Programation/Projet_8/PurBeurreApp/gecko/geckodriver")
 
@@ -45,6 +45,11 @@ class AccountTestCase(LiveServerTestCase):
         # Logout
         driver.get('http://127.0.0.1:8000/accounts/logout/')
 
+    @pytest.mark.selenium_mk
+    def test_login_then_search_then_favorit_then_foodpage(self):
+        driver = webdriver.Firefox(
+            executable_path="/home/sebastien/Documents/Cours_Programation/Projet_8/PurBeurreApp/gecko/geckodriver")
+
         # Login
         driver.get('http://127.0.0.1:8000/accounts/login/')
         username = driver.find_element_by_id('id_username')
@@ -67,5 +72,7 @@ class AccountTestCase(LiveServerTestCase):
             expected_conditions.presence_of_element_located((By.ID, "favorite_submit_id_0"))
         )
         driver.find_element_by_id('favorite_submit_id_0').click()
+
+        # Go to food page
         driver.implicitly_wait(20)
         driver.find_element_by_id('id_submit_off_0').click()
