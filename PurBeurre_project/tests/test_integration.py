@@ -11,6 +11,7 @@ from schema import Schema, And
 from database_handler_app.models import FoodList, Allergen
 import ast
 from bs4 import BeautifulSoup
+from django.urls import reverse
 
 
 c = Client()
@@ -51,11 +52,14 @@ class TestIntegration:
         assert response.status_code == 200
 
     @pytest.mark.django_db
-    def test_login_search_add_favorite(self, client, create_user, monkeypatch):
+    def test_login_search_add_favorite(self, client, create_user, django_user_model):
         # mock request.user
-        def mock_request_user(self, request):
-            return 'cornebouque'
-        monkeypatch.setattr('PurBeurreApp.PurBeurre_project', mock_request_user)
+        user = django_user_model.objects.create(
+            username='someone', password='password'
+        )
+        url = reverse('user-detail-view', kwargs={'pk': user.pk})
+        response = client.get(url)
+
         # Create user and connect
         user = create_user()
         client.login(
