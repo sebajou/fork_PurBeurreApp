@@ -55,28 +55,17 @@ class TestIntegration:
     def test_login_search_add_favorite(self, client, create_user, django_user_model):
         # mock request.user
         user = django_user_model.objects.create(
-            username='someone', password='password'
+            username='cornebouque', password='1AQWXSZ2'
         )
         url = reverse('user-detail-view', kwargs={'pk': user.pk})
-        response = client.get(url)
-
-        # Create user and connect
-        user = create_user()
-        client.login(
-            username=user.username, password="1AQWXSZ2"
-        )
         # Search food
         search_food_request = {'search': 'beurre de cacahuète'}
-        response = c.post('/database_handler_app/search_results/', search_food_request)
+        response = client.post('/database_handler_app/search_results/', search_food_request)
         # Extract id from html in response.content
         soup = BeautifulSoup(response.content, features="html.parser")
-        print("soup => ", soup)
         find_id = soup.find(id='favorite_substitute_id_0')
-        print("find_id => ", find_id)
         first_id_from_search = int(find_id['value'])
-        print("first_id_from_search => ", first_id_from_search)
-        response = c.post('/database_handler_app/is_favorite/',
-                          {'username': 'cornebouque', 'favorite_substitute_id': first_id_from_search})
+        response = client.post('/database_handler_app/is_favorite/', {'favorite_substitute_id': first_id_from_search})
         assert response.status_code == 302
 
     @pytest.mark.django_db
