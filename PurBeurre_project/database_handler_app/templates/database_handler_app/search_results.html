@@ -52,7 +52,7 @@
                        </div>
                         <form class="record_favorite" action="{% url 'is_favorite' %}" method="post">
                             {% csrf_token %}
-                            <input id="favorite_substitute_id" type="hidden" value="{{ ele_healthy_substitute.id }}"  name="favorite_substitute_id" >
+                            <input id="favorite_substitute_id_{{ forloop.counter0 }}" type="hidden" value="{{ ele_healthy_substitute.id }}"  name="favorite_substitute_id" >
                             <button class="btn btn-primary" id="favorite_submit_id_{{ forloop.counter0 }}" type="submit">Enregistrer le produit dans les favoris</button>
                         </form>
                 </div>
