@@ -1,20 +1,10 @@
-from django.http import HttpResponse
 from django.test import Client
-from django.contrib.sessions.models import Session
-from django import urls
 import pytest
-import time
-from request_api_app.search_engine import PopDBFromJsonWithCategories, FindSubstitute, Parser
-from request_api_app.search_engine import pop_db_with_categories
-import json
-from schema import Schema, And
-from database_handler_app.models import FoodList, Allergen
-import ast
 from bs4 import BeautifulSoup
-from django.urls import reverse
 
 
 c = Client()
+
 
 @pytest.fixture
 def test_password():
@@ -34,40 +24,54 @@ def create_user(db, django_user_model, test_password):
     return make_user
 
 
-class TestIntegration:
+@pytest.fixture
+def auto_login_user(db, client, create_user, test_password):
+    def make_auto_login(user=None):
+        if user is None:
+            user = create_user()
+        client.login(username=user.username, password=test_password)
+        return client, user
+    return make_auto_login
 
-    def setup_method(self):
-        self.search_food_request = {'search': 'beurre de cacahuète'}
-        self.user_to_login = {'username': 'cornebouque', 'password': '1AQWXSZ2'}
-        self.food_id = {'items': 662}
-        self.favorite_id = {'favorite_substitute_id': 662}
 
-    @pytest.mark.django_db
-    def test_signup_logout(self, client, create_user):
-        user = create_user()
-        client.login(
-            username=user.username, password="1AQWXSZ2"
-        )
-        response = client.get('http://127.0.0.1:8000/accounts/logout/')
-        assert response.status_code == 200
+@pytest.mark.django_db
+def test_login_search_add_favorite(auto_login_user):
+    # mock request.user and login
+    client, user = auto_login_user()
+    response = client.post('/accounts/login/', {'username': 'LeGrandMechantLoup', 'password': '1AQWXSZ2'})
+    # Search food
+    search_food_request = {'search': 'beurre de cacahuète'}
+    response = client.post('/database_handler_app/search_results/', search_food_request)
+    # Extract id from html in response.content
+    soup = BeautifulSoup(response.content, features="html.parser")
+    find_id = soup.find(id='favorite_substitute_id_0')
+    first_id_from_search = int(find_id['value'])
+    response = client.post('/database_handler_app/is_favorite/', {'favorite_substitute_id': first_id_from_search})
+    assert response.status_code == 302
 
-    @pytest.mark.django_db
-    def test_login_search_add_favorite(self, client, create_user, django_user_model):
-        # mock request.user
-        user = django_user_model.objects.create(
-            username='cornebouque', password='1AQWXSZ2'
-        )
-        url = reverse('user-detail-view', kwargs={'pk': user.pk})
-        # Search food
-        search_food_request = {'search': 'beurre de cacahuète'}
-        response = client.post('/database_handler_app/search_results/', search_food_request)
-        # Extract id from html in response.content
-        soup = BeautifulSoup(response.content, features="html.parser")
-        find_id = soup.find(id='favorite_substitute_id_0')
-        first_id_from_search = int(find_id['value'])
-        response = client.post('/database_handler_app/is_favorite/', {'favorite_substitute_id': first_id_from_search})
-        assert response.status_code == 302
 
-    @pytest.mark.django_db
-    def test_login_serch_display_page_food(self):
-        pass
+@pytest.mark.django_db
+def test_signup_logout(client, create_user):
+    user = create_user()
+    client.login(
+        username=user.username, password="1AQWXSZ2"
+    )
+    response = client.get('http://127.0.0.1:8000/accounts/logout/')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_login_search_display_page_food(auto_login_user):
+    # mock request.user and login
+    client, user = auto_login_user()
+    response = client.post('/accounts/login/', {'username': 'LeGrandMechantLoup', 'password': '1AQWXSZ2'})
+    # Search food
+    search_food_request = {'search': 'beurre de cacahuète'}
+    response = client.post('/database_handler_app/search_results/', search_food_request)
+    # Extract id from html in response.content
+    soup = BeautifulSoup(response.content, features="html.parser")
+    find_id = soup.find(id='favorite_substitute_id_0')
+    first_id_from_search = int(find_id['value'])
+    # Display page food
+    response = client.post('/database_handler_app/food_page/', {'id_food': first_id_from_search})
+    assert response.status_code == 200

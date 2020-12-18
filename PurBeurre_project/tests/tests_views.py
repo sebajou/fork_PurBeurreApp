@@ -1,14 +1,5 @@
-from django.http import HttpResponse
 from django.test import Client
-from django.contrib.sessions.models import Session
-from django import urls
-# from django.urls import reverse
-# from database_handler_app.models import MyUsers
 import pytest
-import time
-# import freezegun
-# import datetime as dt
-# from django.test.testcases import SimpleTestCase
 
 c = Client()
 
