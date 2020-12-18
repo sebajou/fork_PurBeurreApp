@@ -572,3 +572,7 @@ console.info: MINT: Loading search-config defaults.
 JavaScript error: resource://gre/modules/TelemetryUtils.jsm, line 161: TypeError: date is undefined
 console.info: MINT: main/search-config update being skipped
 1608252497157	addons.xpi	ERROR	System addon update list error Error: Failed downloading XML, status: 0, reason: error
+1608255645541	Marionette	INFO	Stopped listening on port 40897
+1608255646878	Marionette	INFO	Stopped listening on port 46035
+1608255649095	Marionette	INFO	Stopped listening on port 38863
+1608255650519	Marionette	INFO	Stopped listening on port 45235
