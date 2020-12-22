@@ -31,7 +31,7 @@ DEBUG = False
 PRODUCTION = True
 
 if PRODUCTION:
-    ALLOWED_HOSTS = ['178.62.117.192']
+    ALLOWED_HOSTS = ['167.99.35.245']
 else:
     ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'stormy-earth-30718.herokuapp.com']
 
