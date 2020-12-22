@@ -26,14 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'Optional default value')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-PRODUCTION = True
-
-if PRODUCTION:
-    ALLOWED_HOSTS = ['167.99.35.245']
-else:
-    ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'stormy-earth-30718.herokuapp.com']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'stormy-earth-30718.herokuapp.com']
 
 # Application definition
 
@@ -53,29 +48,17 @@ INSTALLED_APPS = [
     'cloudinary',
 ]
 
-if PRODUCTION:
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
-    ]
-else:
-    MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
-        'whitenoise.middleware.WhiteNoiseMiddleware',
-    ]
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]
 
 AUTH_USER_MODEL = 'database_handler_app.MyUsers'
 
@@ -155,27 +138,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-if PRODUCTION:
-    pass
-else:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-if DEBUG:
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-elif PRODUCTION:
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-else:
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.getenv('CLOUD_NAME', 'Optional default value'),
-        'API_KEY': os.getenv('API_KEY', 'Optional default value'),
-        'API_SECRET': os.getenv('API_SECRET', 'Optional default value'),
-    }
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 django_heroku.settings(locals())
