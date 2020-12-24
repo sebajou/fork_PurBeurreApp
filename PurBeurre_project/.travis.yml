@@ -5,7 +5,7 @@ python:
 
 
 before_script:
-  - pip3 install -r PurBeurreApp/requirements.txt
+  - pip3 install -r requirements.txt
 
 env: DJANGO_SETTINGS_MODULE="PurBeurre_project.settings.travis"
 
