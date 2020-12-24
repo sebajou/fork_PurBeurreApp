@@ -18,4 +18,4 @@ branches:
     - staging
 
 script:
-  - pytest -v -m "not api_request and not selenium_mk"
+  - cd PurBeurre_project pytest -v -m "not api_request and not selenium_mk"
