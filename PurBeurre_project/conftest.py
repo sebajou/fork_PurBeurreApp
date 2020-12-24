@@ -13,7 +13,9 @@ def django_db_setup(django_db_setup, django_db_blocker):
     #     'PASSWORD': '3333argh',
     #     'PORT': '5432',
     # }
-    # print('conftest for populate test database')
-    # with django_db_blocker.unblock():
-    #     call_command('loaddata', 'test2_pur_beurre_v6_db.json')
-    pass
+    try:
+        with django_db_blocker.unblock():
+            call_command('loaddata', 'test3_pur_beurre_v6_db.json', verbosity=1)
+        print('conftest for populate test database')
+    except:
+        print('conftest fail to populate test database')
