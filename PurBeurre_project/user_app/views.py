@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from database_handler_app.models import MyUsers, Allergen, Diet
 from user_app.sign_up_form import SignUpForm
 import logging
+from sentry_sdk import capture_message
 
 
 # Get an instance of a logger
@@ -36,6 +37,7 @@ def user_form(request):
                 # Optionally pass a request and we'll grab any information we can
                 'request': request,
             })
+            capture_message('New user')
             return redirect('index')
     else:
         form = SignUpForm()
