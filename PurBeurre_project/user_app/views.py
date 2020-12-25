@@ -2,6 +2,11 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from database_handler_app.models import MyUsers, Allergen, Diet
 from user_app.sign_up_form import SignUpForm
+import logging
+
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 def user_form(request):
@@ -26,6 +31,11 @@ def user_form(request):
             for id_allergen in choose_allergen:
                 qs_allergen = Allergen.objects.get(id=id_allergen)
                 qs_username.alergy.add(qs_allergen)
+            # Inform Sentry that one new user is created
+            logger.info('New user', exc_info=True, extra={
+                # Optionally pass a request and we'll grab any information we can
+                'request': request,
+            })
             return redirect('index')
     else:
         form = SignUpForm()
