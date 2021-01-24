@@ -13,7 +13,7 @@ class TestsPopDBFromJsonWithCategories:
 
     def setup_method(self):
         # Open the bonbons_json_data
-        with open("bonbons.json", "r") as read_file:
+        with open("bonbons2.json", "r") as read_file:
             self.json_for_test = json.load(read_file)
         # Build json schema for test variable from json
         self.schema = Schema([{
@@ -28,7 +28,7 @@ class TestsPopDBFromJsonWithCategories:
         }])
 
         # Dictionary like dictionary made with variable_from_json function
-        with open("variables_bonbons2.json", "r") as read_file:
+        with open("variables_bonbons3.json", "r") as read_file:
             self.dictionary_from_json_bonbon = read_file.read()
             self.dictionary_from_json_bonbon = ast.literal_eval(self.dictionary_from_json_bonbon)
 
@@ -61,6 +61,7 @@ class TestsPopDBFromJsonWithCategories:
             assert int(product_from_model["scora_nova_group"])
             assert str(product_from_model["nutri_score_grad"])
             assert str(product_from_model["food_url"])
+            assert str(product_from_model["labels_list"])
             assert str(product_from_model["image_src"])
             assert int(product_from_model["id"])
 
@@ -138,6 +139,7 @@ class TestsFindSubstitute:
             "nutri_score_grad": And(str),
             "food_url": And(str),
             "image_src": And(str),
+            "labels_list": And(str),
             "nutriments_100g": And(str),
         })
         self.id_food_from_search_choose = 662

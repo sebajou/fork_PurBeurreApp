@@ -7,8 +7,8 @@ class TestFillUpDiet:
 
     @pytest.mark.django_db(transaction=True)
     def test_fill_up_diet(self):
-        list_diet_type_test = ['omnivore', 'végétarien', 'végétalien', 'carnivore',
-                          'anthropophage', 'pesco-végétarien', 'crudivore']
+        list_diet_type_test = ['omnivore', 'végétarien', 'végétalien', 'carnivore', 'anthropophage',
+                               'pesco-végétarien', 'crudivore', 'halal', 'kasher']
         fill_up_diet()
         dictionary_from_model = Diet.objects.values()
         list_diet_type_model = []

@@ -3,7 +3,8 @@ from database_handler_app.models import Diet, Allergen
 
 def fill_up_diet():
     """Allow to fill diet table database before fist use. """
-    diet_list = ['omnivore', 'végétarien', 'végétalien', 'carnivore', 'anthropophage', 'pesco-végétarien', 'crudivore']
+    diet_list = ['omnivore', 'végétarien', 'végétalien', 'carnivore', 'anthropophage', 'pesco-végétarien',
+                 'crudivore', 'halal', 'kasher']
     for diet_type in diet_list:
         if Diet.objects.filter(diet_name=diet_type):
             print(diet_type)

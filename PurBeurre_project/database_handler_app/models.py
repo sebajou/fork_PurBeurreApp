@@ -24,6 +24,7 @@ class FoodList(models.Model):
     food_url = models.TextField(unique=False, null=True)
     image_src = models.TextField(unique=False, null=True)
     nutriments_100g = models.TextField(unique=False, null=True)
+    labels_tags = models.TextField(unique=False, null=True)
     allergen_list = models.ManyToManyField(Allergen)
 
 

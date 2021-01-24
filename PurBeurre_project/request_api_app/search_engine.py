@@ -29,6 +29,7 @@ class PopDBFromJsonWithCategories:
         req = requests.get(
             "https://fr.openfoodfacts.org/cgi/search.pl?", params=payload
         )
+        print('Json did')
         data_category_json = req.json()
         return data_category_json, name_category
 
@@ -48,6 +49,12 @@ class PopDBFromJsonWithCategories:
                 nutri_score_grad = data['nutriscore_grade']
                 image_src = data['image_url']
                 allergen_list = data['allergens']
+                # Take labels from labels_tags
+                labels_list = data['labels_tags']
+                # labels_list = []
+                # for label in data['labels_tags']:
+                #     labels_list.append(label)
+                # print(labels_list)
                 # Capt data from data['nutriments']
                 nutriments_100g = data['nutriments']
                 # Add to dictionary only appropriate nutriments for 100g
@@ -67,6 +74,7 @@ class PopDBFromJsonWithCategories:
                                               "nutri_score_grad": nutri_score_grad,
                                               "food_url": food_url,
                                               "image_src": image_src,
+                                              "labels_list": labels_list,
                                               "allergen_list": allergen_list,
                                               "nutriments_100g": selected_nutriments_100g}])
             except (TypeError, KeyError):
@@ -88,7 +96,8 @@ class PopDBFromJsonWithCategories:
                                          nutri_score_grad=product_from_json["nutri_score_grad"],
                                          food_url=product_from_json["food_url"],
                                          image_src=product_from_json["image_src"],
-                                         nutriments_100g=product_from_json["nutriments_100g"])
+                                         nutriments_100g=product_from_json["nutriments_100g"],
+                                         labels_tags=product_from_json["labels_list"])
                     food_list.save()
                     # Stock allergens tag in list
                     data_allergens = product_from_json["allergen_list"]
