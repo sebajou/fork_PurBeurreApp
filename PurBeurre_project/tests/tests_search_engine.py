@@ -24,6 +24,7 @@ class TestsPopDBFromJsonWithCategories:
             "food_url": And(str),
             "image_src": And(str),
             "allergen_list": And(str),
+            "labels_list": And(list),
             "nutriments_100g": And(dict),
         }])
 
@@ -36,6 +37,7 @@ class TestsPopDBFromJsonWithCategories:
         """Control Extract useful data from json and stock it in variables corespond to schema"""
         pop = PopDBFromJsonWithCategories()
         data_category_json = self.json_for_test
+        data_category_json = [data_category_json]
         self.dictionary_build_with_json = pop.variables_from_foods_json(data_category_json=data_category_json,
                                                                         name_category="bonbon")
         dictionary_schema = self.schema
@@ -61,7 +63,7 @@ class TestsPopDBFromJsonWithCategories:
             assert int(product_from_model["scora_nova_group"])
             assert str(product_from_model["nutri_score_grad"])
             assert str(product_from_model["food_url"])
-            assert str(product_from_model["labels_list"])
+            assert str(product_from_model["labels_tags"])
             assert str(product_from_model["image_src"])
             assert int(product_from_model["id"])
 
@@ -139,7 +141,7 @@ class TestsFindSubstitute:
             "nutri_score_grad": And(str),
             "food_url": And(str),
             "image_src": And(str),
-            "labels_list": And(str),
+            "labels_tags": And(str),
             "nutriments_100g": And(str),
         })
         self.id_food_from_search_choose = 662
@@ -185,3 +187,12 @@ class TestsFindSubstitute:
         find = FindSubstitute()
         dic_healthy_substitute_from_categories = find.healthy_substitute(id_food)
         assert dictionary_schema.is_valid(dic_healthy_substitute_from_categories[0])
+        # assert int(dic_healthy_substitute_from_categories[0]["id"])
+        # assert str(dic_healthy_substitute_from_categories[0]["food_name"])
+        # assert str(dic_healthy_substitute_from_categories[0]["category"])
+        # assert int(dic_healthy_substitute_from_categories[0]["scora_nova_group"])
+        # assert str(dic_healthy_substitute_from_categories[0]["food_url"])
+        # assert str(dic_healthy_substitute_from_categories[0]["nutri_score_grad"])
+        # assert str(dic_healthy_substitute_from_categories[0]["image_src"])
+        # assert str(dic_healthy_substitute_from_categories[0]["labels_tags"])
+        # assert str(dic_healthy_substitute_from_categories[0]["nutriments_100g"])
