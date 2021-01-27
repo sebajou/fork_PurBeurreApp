@@ -178,7 +178,6 @@ class TestsFindSubstitute:
         list_id_food_from_search = find.database_search_and_find(key_word_for_test)
         for element_id in list_id_food_from_search:
             assert element_id == '-µ-absurd-µ-'
-            # assert element_id == 'erroreer'
 
     @pytest.mark.django_db()
     def test_healthy_substitute(self):
@@ -187,12 +186,3 @@ class TestsFindSubstitute:
         find = FindSubstitute()
         dic_healthy_substitute_from_categories = find.healthy_substitute(id_food)
         assert dictionary_schema.is_valid(dic_healthy_substitute_from_categories[0])
-        # assert int(dic_healthy_substitute_from_categories[0]["id"])
-        # assert str(dic_healthy_substitute_from_categories[0]["food_name"])
-        # assert str(dic_healthy_substitute_from_categories[0]["category"])
-        # assert int(dic_healthy_substitute_from_categories[0]["scora_nova_group"])
-        # assert str(dic_healthy_substitute_from_categories[0]["food_url"])
-        # assert str(dic_healthy_substitute_from_categories[0]["nutri_score_grad"])
-        # assert str(dic_healthy_substitute_from_categories[0]["image_src"])
-        # assert str(dic_healthy_substitute_from_categories[0]["labels_tags"])
-        # assert str(dic_healthy_substitute_from_categories[0]["nutriments_100g"])
