@@ -7,7 +7,8 @@ class IsFood:
     Methode which return boolean to caracterise food from foodlist table.
     """
 
-    def is_allergen(self, allergen_list, id_food):
+    @staticmethod
+    def is_allergen(allergen_list, id_food):
         """Determine is a food from id_food contain an allergen in allergen_list. """
         # Obtain allergen list from id_food through many to many relationship
         allergen_list_from_id = Allergen.objects.filter(foodlist__id=id_food).values()
@@ -20,7 +21,8 @@ class IsFood:
 
         return bool_is_allergen
 
-    def is_diet(self, diet_type, id_food):
+    @staticmethod
+    def is_diet(diet_type, id_food):
         """Determine is a food from id_food respect a diet from diet_type. """
         # Extract data of label_tags (halal, vegan, vegetalian...) from id_food foodlist in label_list
         dico_food = FoodList.objects.filter(id=id_food).values()
