@@ -283,6 +283,6 @@ class FindSubstitute:
                                                   .objects.order_by('nutri_score_grad')
                                                   .filter(nutri_score_grad__in=top_scores)
                                                   .filter(category=given_categories_name)
-                                                  .values()[:6])
-        print('dic_healthy_substitute_from_categories => ', dic_healthy_substitute_from_categories)
+                                                  .values())
+        print('dic_healthy_substitute_from_categories[:6] => ', dic_healthy_substitute_from_categories[:6])
         return dic_healthy_substitute_from_categories

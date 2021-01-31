@@ -14,7 +14,13 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours. </p>
                         <a class="btn btn-primary btn-xl">Champ de recherche
-                        <form action="{% url 'search_results' %}" method="post">{% csrf_token %}<input type="text" id="search" placeholder="Produit" name="search" ></form>
+                        <form action="{% url 'search_results' %}" method="post">{% csrf_token %}
+                            <input type="text" id="search" placeholder="Produit" name="search" >
+                            {% if user.is_authenticated %}
+                                <input id="diet" name="diet" type="checkbox"><label>Filter with your diet?</label>
+                                <input id="allergen" name="allergen" type="checkbox"><label>Filter with your allergy?</label>
+                            {% endif %}
+                        </form>
                         </a>
                     </div>
                 </div>

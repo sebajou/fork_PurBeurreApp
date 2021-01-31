@@ -12,10 +12,12 @@ class IsFood:
         """Determine is a food from id_food contain an allergen in allergen_list. """
         # Obtain allergen list from id_food through many to many relationship
         allergen_list_from_id = Allergen.objects.filter(foodlist__id=id_food).values()
+        print('allergen_list_from_id => ', allergen_list_from_id)
         # allergen_list_from_id = allergen_list_from_id[0]['allergen_list']
         bool_is_allergen = False
-        for allergen in allergen_list:
-            for allergen_from_id in allergen_list_from_id:
+        for allergen_from_id in allergen_list_from_id:
+            for allergen in allergen_list:
+                print("allergen_from_id['allergen_name'] => ", allergen_from_id['allergen_name'])
                 if allergen == allergen_from_id['allergen_name']:
                     bool_is_allergen = True
 
