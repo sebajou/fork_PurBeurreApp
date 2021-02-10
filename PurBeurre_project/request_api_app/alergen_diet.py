@@ -1,4 +1,4 @@
-from database_handler_app.models import FoodList, Allergen
+from database_handler_app.models import FoodList, Allergen, Diet
 import ast
 
 
@@ -41,3 +41,46 @@ class IsFood:
         # In some ingredients is not coherent with diet_type bool_is_diet = False
 
         return bool_is_diet
+
+    def remove_food_from_allergen(self, food_dict, user_id):
+        """
+        This function remove foods from a list of food if this food is not in adequation with allergen of a user.
+        This list of allergen is determinated with is_allergen function which give a boolean.
+        """
+        # Obtain list of allergen and diet of the current user.
+        # Remove food with user's allergen from dict_healthy_substitute.
+        food_dict = list(food_dict)
+        dict_allergen_of_user = Allergen.objects.filter(myusers__id=user_id).values()
+        list_allergen_of_user = []
+        for allergen in dict_allergen_of_user:
+            list_allergen_of_user.append(allergen['allergen_name'])
+        print("list_allergen_of_user => ", list_allergen_of_user)
+        i = 0
+        for food_id in food_dict:
+            print("food_id['id'] => ", food_id['id'])
+            is_allergen = self.is_allergen(allergen_list=list_allergen_of_user, id_food=food_id['id'])
+            print('is_allergen => ', is_allergen)
+            if is_allergen:
+                del food_dict[i]
+            i += 1
+
+        return food_dict
+
+    def remove_food_from_diet(self, food_dict, user_id):
+        """
+        This function remove foods from a list of food if this food is not in adequation with diet of a user.
+        Foods adequation with diet is determine with is_allergen function.
+        """
+        # Remove food not adequate with user diet from list_id.
+        food_dict = list(food_dict)
+        diet_of_user = Diet.objects.filter(myusers__id=user_id).values()
+        diet_of_user = diet_of_user[0]['diet_name']
+        print("diet_of_user => ", diet_of_user)
+        j = 0
+        for food_id in food_dict:
+            is_diet = self.is_diet(diet_type=diet_of_user[0], id_food=food_id['id'])
+            if not is_diet:
+                del food_dict[j]
+            j += 1
+
+        return food_dict

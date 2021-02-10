@@ -17,8 +17,8 @@
                         <form action="{% url 'search_results' %}" method="post">{% csrf_token %}
                             <input type="text" id="search" placeholder="Produit" name="search" >
                             {% if user.is_authenticated %}
-                                <input id="diet" name="diet" type="checkbox"><label>Filter with your diet?</label>
-                                <input id="allergen" name="allergen" type="checkbox"><label>Filter with your allergy?</label>
+                                <input id="diet" name="diet" type="checkbox"><label>Filtrer en fonction de votre regime alimentaire. </label>
+                                <input id="allergen" name="allergen" type="checkbox"><label>Filtrer en fonction de vos allergies. </label>
                             {% endif %}
                         </form>
                         </a>

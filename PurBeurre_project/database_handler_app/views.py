@@ -26,7 +26,7 @@ def search_results(request):
     if request.method == 'POST':
         # Instanciation of class with method to find substitute and to bool allergen and diet
         search = FindSubstitute()
-        is_bool = IsFood()
+        remove_allergen_diet = IsFood()
         # Post data from search field
         search_posted = request.POST.get('search')
         # Post bool data to know is the search must exclude user's allergen and by adequate with user's diet
@@ -50,38 +50,18 @@ def search_results(request):
                 message = "Vous pouvez remplacer l'aliment par : "
                 # Obtain dictionnary with useful data for substitute from list of substitue id
                 dict_healthy_substitute = search.healthy_substitute(list_id[0]['id'])
+                if allergen_posted:
+                    dict_healthy_substitute = remove_allergen_diet.remove_food_from_allergen(
+                        food_dict=dict_healthy_substitute, user_id=request.user.id)
+                if diet_posted:
+                    dict_healthy_substitute = remove_allergen_diet.remove_food_from_diet(
+                        food_dict=dict_healthy_substitute, user_id=request.user.id)
 
-        dict_healthy_substitute = list(dict_healthy_substitute)
-        # Obtain list of allergen and diet of the current user.
-        # Remove food with user's allergen from dict_healthy_substitute.
-        if allergen_posted:
-            dict_allergen_of_user = Allergen.objects.filter(myusers__id=request.user.id).values()
-            list_allergen_of_user = []
-            for allergen in dict_allergen_of_user:
-                list_allergen_of_user.append(allergen['allergen_name'])
-            print("list_allergen_of_user => ", list_allergen_of_user)
-            i = 0
-            for food_id in dict_healthy_substitute:
-                print("food_id['id'] => ", food_id['id'])
-                is_allergen = is_bool.is_allergen(allergen_list=list_allergen_of_user, id_food=food_id['id'])
-                print('is_allergen => ', is_allergen)
-                if is_allergen:
-                    del dict_healthy_substitute[i]
-                i += 1
-        # Remove food not adequate with user diet from list_id.
-        if diet_posted:
-            diet_of_user = Diet.objects.filter(myusers__id=request.user.id).values()
-            diet_of_user = diet_of_user[0]['diet_name']
-            print("diet_of_user => ", diet_of_user)
-            j = 0
-            for food_id in dict_healthy_substitute:
-                is_diet = is_bool.is_diet(diet_type=diet_of_user[0], id_food=food_id['id'])
-                if not is_diet:
-                    del dict_healthy_substitute[j]
-                j += 1
+        print("dict_healthy_substitute => ", dict_healthy_substitute)
+        dict_healthy_substitute = (list(dict_healthy_substitute))[:6]
 
         return render(request, 'database_handler_app/search_results.html',
-                      {'list_id': list_id, 'message': message, 'dict_healthy_substitute': dict_healthy_substitute[:6]})
+                      {'list_id': list_id, 'message': message, 'dict_healthy_substitute': dict_healthy_substitute})
 
 
 def is_favorite(request):
