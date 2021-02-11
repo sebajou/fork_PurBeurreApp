@@ -37,6 +37,18 @@ class IsFood:
                     print(label)
                     bool_is_diet = True
         # In some ingredients is not coherent with diet_type bool_is_diet = False
+        # Take ingredients of a given food in a list
+        for ele in dico_food:
+            for ingredient in ast.literal_eval((ele["ingredients_tags"])):
+                if diet_type == 'végétalien' and \
+                        (ingredient == 'en:egg' or ingredient == 'en:milk' or ingredient == 'en:meat'):
+                    bool_is_diet = False
+                if diet_type == 'végétarien' and \
+                        (ingredient == 'en:fish' or ingredient == 'en:meat'):
+                    bool_is_diet = False
+                if diet_type == 'pesco-végétarien' and \
+                        (ingredient == 'en:meat'):
+                    bool_is_diet = False
 
         return bool_is_diet
 
@@ -69,7 +81,6 @@ class IsFood:
         This function remove foods from a list of food if this food is not in adequation with diet of a user.
         Foods adequation with diet is determine with is_allergen function.
         """
-        # Remove food not adequate with user diet from list_id.
         # Remove food not adequate with user diet from list_id.
         food_dict = list(food_dict)
 
