@@ -59,6 +59,9 @@ def search_results(request):
 
         dict_healthy_substitute = (list(dict_healthy_substitute))[:6]
 
+        if not dict_healthy_substitute:
+            message = "Nous n'avons pas trouvé d'aliments correspondant à vos critères. "
+
         return render(request, 'database_handler_app/search_results.html',
                       {'list_id': list_id, 'message': message, 'dict_healthy_substitute': dict_healthy_substitute})
 

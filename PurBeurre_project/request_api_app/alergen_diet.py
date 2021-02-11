@@ -12,7 +12,6 @@ class IsFood:
         """Determine is a food from id_food contain an allergen in allergen_list. """
         # Obtain allergen list from id_food through many to many relationship
         allergen_list_from_id = Allergen.objects.filter(foodlist__id=id_food).values()
-        print('allergen_list_from_id => ', allergen_list_from_id)
         # allergen_list_from_id = allergen_list_from_id[0]['allergen_list']
         bool_is_allergen = False
         for allergen_from_id in allergen_list_from_id:
@@ -68,9 +67,7 @@ class IsFood:
 
         food_not_allergen = []
         for food_id in food_dict:
-            print("food_id = > ", food_id)
             is_allergen = self.is_allergen(allergen_list=list_allergen_of_user, id_food=food_id['id'])
-            print('is_allergen => ', is_allergen)
             if not is_allergen:
                 food_not_allergen.append(food_id)
 
@@ -89,11 +86,19 @@ class IsFood:
             diet_of_user = diet_of_user[0]['diet_name']
             print("diet_of_user => ", diet_of_user)
 
-        j = 0
+        food_good_diet = []
+        for food_id in food_dict:
+            is_diet = self.is_diet(diet_type=diet_of_user, id_food=food_id['id'])
+            if is_diet:
+                food_good_diet.append(food_id)
+
+        """j = 0
         for food_id in food_dict:
             is_diet = self.is_diet(diet_type=diet_of_user[0], id_food=food_id['id'])
             if not is_diet:
                 del food_dict[j]
             j += 1
 
-        return food_dict
+        return food_dict"""
+
+        return food_good_diet
