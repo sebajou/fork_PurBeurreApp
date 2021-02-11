@@ -112,7 +112,7 @@ WSGI_APPLICATION = 'PurBeurre_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pur_beurre_v7_db',
+        'NAME': 'pur_beurre_v8_db',
         'USER': 'sebajou',
         'PASSWORD': '3333argh',
         'HOST': 'localhost',

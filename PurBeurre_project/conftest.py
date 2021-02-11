@@ -15,7 +15,7 @@ def django_db_setup(django_db_setup, django_db_blocker):
     # }
     try:
         with django_db_blocker.unblock():
-            call_command('loaddata', 'test1_pur_beurre_v7_db.json', verbosity=1)
+            call_command('loaddata', 'test1_pur_beurre_v8_db.json', verbosity=1)
         print('conftest for populate test database')
     except:
         print('conftest fail to populate test database')

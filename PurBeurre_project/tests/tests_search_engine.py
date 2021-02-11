@@ -13,7 +13,7 @@ class TestsPopDBFromJsonWithCategories:
 
     def setup_method(self):
         # Open the bonbons_json_data
-        with open("bonbons2.json", "r") as read_file:
+        with open("bonbons3.json", "r") as read_file:
             self.json_for_test = json.load(read_file)
         # Build json schema for test variable from json
         self.schema = Schema([{
@@ -25,11 +25,12 @@ class TestsPopDBFromJsonWithCategories:
             "image_src": And(str),
             "allergen_list": And(str),
             "labels_list": And(list),
+            "ingredients_tags": And(list),
             "nutriments_100g": And(dict),
         }])
 
         # Dictionary like dictionary made with variable_from_json function
-        with open("variables_bonbons3.json", "r") as read_file:
+        with open("variables_bonbons4.json", "r") as read_file:
             self.dictionary_from_json_bonbon = read_file.read()
             self.dictionary_from_json_bonbon = ast.literal_eval(self.dictionary_from_json_bonbon)
 
@@ -64,6 +65,7 @@ class TestsPopDBFromJsonWithCategories:
             assert str(product_from_model["nutri_score_grad"])
             assert str(product_from_model["food_url"])
             assert str(product_from_model["labels_tags"])
+            assert str(product_from_model["ingredients_tags"])
             assert str(product_from_model["image_src"])
             assert int(product_from_model["id"])
 
@@ -133,15 +135,16 @@ class TestsFindSubstitute:
         self.key_sentence3 = "goudoubouz à la brimiritif gaudoisiate"
         self.category = "bonbon"
         # Schema of dictionay of substitute values from database
-        self.schema = Schema({
+        self.schema2 = Schema({
             "id": And(int),
+            "labels_tags": And(str),
+            "ingredients_tags": And(str),
             "food_name": And(str),
             "category": And(str),
             "scora_nova_group": And(int),
             "nutri_score_grad": And(str),
             "food_url": And(str),
             "image_src": And(str),
-            "labels_tags": And(str),
             "nutriments_100g": And(str),
         })
         self.id_food_from_search_choose = 662
@@ -182,7 +185,7 @@ class TestsFindSubstitute:
     @pytest.mark.django_db()
     def test_healthy_substitute(self):
         id_food = self.id_food_for_substitute
-        dictionary_schema = self.schema
+        dictionary_schema = self.schema2
         find = FindSubstitute()
         dic_healthy_substitute_from_categories = find.healthy_substitute(id_food)
         assert dictionary_schema.is_valid(dic_healthy_substitute_from_categories[0])

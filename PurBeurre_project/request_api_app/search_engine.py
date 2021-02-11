@@ -51,6 +51,9 @@ class PopDBFromJsonWithCategories:
                 allergen_list = data['allergens']
                 # Take labels from labels_tags
                 labels_list = data['labels_tags']
+                print("labels_tags => ", labels_list)
+                ingredients_tags = data['ingredients_tags']
+                print("ingredients_tags => ", ingredients_tags)
                 # labels_list = []
                 # for label in data['labels_tags']:
                 #     labels_list.append(label)
@@ -75,6 +78,7 @@ class PopDBFromJsonWithCategories:
                                               "food_url": food_url,
                                               "image_src": image_src,
                                               "labels_list": labels_list,
+                                              "ingredients_tags": ingredients_tags,
                                               "allergen_list": allergen_list,
                                               "nutriments_100g": selected_nutriments_100g}])
             except (TypeError, KeyError):
@@ -97,6 +101,7 @@ class PopDBFromJsonWithCategories:
                                          food_url=product_from_json["food_url"],
                                          image_src=product_from_json["image_src"],
                                          nutriments_100g=product_from_json["nutriments_100g"],
+                                         ingredients_tags=product_from_json["ingredients_tags"],
                                          labels_tags=product_from_json["labels_list"])
                     food_list.save()
                     # Stock allergens tag in list
