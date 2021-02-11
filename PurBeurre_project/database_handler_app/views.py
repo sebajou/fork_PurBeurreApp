@@ -57,7 +57,6 @@ def search_results(request):
                     dict_healthy_substitute = remove_allergen_diet.remove_food_from_diet(
                         food_dict=dict_healthy_substitute, user_id=request.user.id)
 
-        print("dict_healthy_substitute => ", dict_healthy_substitute)
         dict_healthy_substitute = (list(dict_healthy_substitute))[:6]
 
         return render(request, 'database_handler_app/search_results.html',

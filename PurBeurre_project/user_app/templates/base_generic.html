@@ -39,8 +39,8 @@
                         <form class="navbar-button" action="{% url 'search_results' %}" method="post">{% csrf_token %}
                             <input id="search" type="text" placeholder="Chercher" name="search" >
                             {% if user.is_authenticated %}
-                                <input id="diet" name="diet" type="checkbox"><label>Filtrer en fonction de votre regime alimentaire. </label>
-                                <input id="allergen" name="allergen" type="checkbox"><label>Filtrer en fonction de vos allergies. </label>
+                                <input id="diet" name="diet" type="checkbox"><label> Filtrer regime alimentaire. </label>
+                                <input id="allergen" name="allergen" type="checkbox"><label> Filtrer allergies. </label>
                             {% endif %}
                         </form>
                         <a class="navbar-button" href="{% url 'profile' %}"><i class="far fa-user-circle fa-3x"></i></a>
